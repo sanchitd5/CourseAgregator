@@ -1,5 +1,6 @@
+CourseAgregator made for SummerTech Live
 
-A boilerplate for react frontend projects.
+based on deakin frontend-boiler plate
 
 > Git Repo: https://github.com/deakin-launchpad/deakin-frontend-boilerplate.git
 
@@ -27,7 +28,7 @@ Before setting up, [Install](https://nodejs.org/en/download/) nodeJS or run belo
 
 ### Clone repository
 
-    git clone https://github.com/deakin-launchpad/deakin-frontend-boilerplate.git
+    git clone https://github.com/sanchitd5/CourseAgregator.git
 
 and then change directory,
 
