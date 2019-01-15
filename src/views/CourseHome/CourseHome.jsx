@@ -24,14 +24,15 @@ class CourseHome extends Component {
           
         };
       this.filterButtonInit();
-      this.searchToggle=this.searchToggle.bind(this);
+      
     }
   
     filterButtonInit()
     {
     let filterElem = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(filterElem);
-    
+    let selector = document.querySelectorAll('select');
+    M.FormSelect.init(selector);
     }
 
 
@@ -179,7 +180,7 @@ class CourseHome extends Component {
                         {
                           (!this.state.tempcatalogue.length?
                                                         <div>
-                                                        <p>
+                                                        <p className="flow-text">
                                                           Sorry, No Courses with that name found.
                                                         </p>
                                                       </div>
@@ -196,7 +197,7 @@ class CourseHome extends Component {
           </div>
           
                 <div className="fixed-action-btn hide-on-large-only">
-  <a className="btn-floating btn-large red" onClick={this.searchToggle} href="#!">
+  <a className="btn-floating btn-large red" onClick={()=>{this.searchToggle()}} href="#!">
     <i className="large material-icons">search</i>
   </a>
 </div>

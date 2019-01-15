@@ -9,7 +9,7 @@ class Header extends Component {
   constructor(props){
     super(props);
     this.state={};
-    M.AutoInit();
+    this.assignDropdown=this.assignDropdown.bind(this);
   }
 
   logout = (e) => {
@@ -21,7 +21,7 @@ class Header extends Component {
 
   assignDropdown= () =>{
     let dropper= document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(dropper,{constrainWidth: false, coverTrigger: false});
+    M.Dropdown.init(dropper,{constrainWidth: true, coverTrigger: false});
     console.log("Dropdown Triggered");
   }
   componentDidMount(){
@@ -33,22 +33,21 @@ class Header extends Component {
     return (
       <header>
       <div className="navbar-fixed">
+      <ul id='user-dropper' className='dropdown-content grey darken-4'>
+            <li ><a className="white-text waves-effect waves-light" href="#!" disabled="disabled">Settings</a></li>            
+            <li ><a onClick={this.logout} className="white-text waves-effect waves-light" href="#!">Logout</a></li>
+        </ul>
           <nav className="black lighten-2">
             <div className="nav-wrapper">
              <div className="brand-logo center"><Link to="/home">b00keep3r</Link></div>
               <ul className="right">
               <li>                
-              {(AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i></a>:<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
-              
+                {(AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>:<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
                 </li>
               </ul>
             </div>
           </nav>
         </div>
-        <ul id='user-dropper' className='dropdown-content'>
-            <li><a className="waves-effect waves-light" href="#!" disabled="disabled">Settings</a></li>            
-            <li><a onClick={this.logout} className="waves-effect waves-light" href="#!">Logout</a></li>
-        </ul>
 
       </header>
 

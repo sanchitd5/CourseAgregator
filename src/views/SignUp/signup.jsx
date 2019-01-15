@@ -33,10 +33,10 @@ class SignUp extends Component {
             <form className="login-formX" id="login_form">
             <label className="flow-text">Fill in your Details </label><br/><br/>
             <div className="Section">
-            <input placeholder="First Name" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
-            <input placeholder="Last Name" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
-            <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
-            <input placeholder="Confirm Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
+            <input placeholder="First Name" id="signup-fname" type="email" className="validate" onChange={this.handleEmailChange} />
+            <input placeholder="Last Name" id="signup-lname" type="email" className="validate" onChange={this.handleEmailChange} />
+            <input placeholder="Password" id="signup-password" type="password" className="validate" onChange={this.handlePasswordChange} />
+            <input placeholder="Confirm Password" id="signup-cpassword" type="password" className="validate" onChange={this.handlePasswordChange} />
              <br/><br/>  
                 {
                   this.props.loginLoading ?
