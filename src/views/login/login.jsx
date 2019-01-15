@@ -2,17 +2,27 @@ import React, { Component } from 'react';
 import AppHelper from "helpers/AppHelper.js";
 import { connect } from 'react-redux';
 import { requestLogin, developerModeLogin } from 'actions';
+import MainBackground from 'images/login_background.jpg'
+import M from 'materialize-css';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      backgroundImage: 'url('+MainBackground+')',
       emailId: '',
       password: '',
       developerMode: true, // Change this to false to contact API
       error: false,
       errorMsg: ''
+
     };
+
+  }
+
+  assignDropdown= () =>{
+    let elem= document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(elem,{alignment:"right",constrainWidth: false});
   }
 
   errorMessage = () => {
@@ -27,6 +37,7 @@ class Login extends Component {
     this.setState({
       emailId: e.target.value
     });
+    window.localStorage.setItem("username",e.target.value);
   }
 
   handlePasswordChange = (e) => {
@@ -55,6 +66,7 @@ class Login extends Component {
       console.log('inside developerMode login');
       this.props.dispatchDeveloperModeLogin();
       AppHelper.developerModeLoginUser(true);
+      
       return;
     }
     console.log('outside developerMode login');
@@ -76,28 +88,33 @@ class Login extends Component {
   }
 
   render() {
+    document.body.style.backgroundImage=this.state.backgroundImage;
     return (
-      <div className="Login">
-        <h1>
-          {this.props.parentState.title}
-        </h1>
-        <div className='row'>
-          <div className='row'>
-            <div className='col s6 offset-s3'>
-              <input placeholder="Email" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
-              <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
-              {this.errorMessage()}
-              {
-                this.props.loginLoading ?
-                  "Loading..." :
-                  <a className="waves-effect waves-light btn" id="loginButton" onClick={this.performLogin} href="#!">
-                    <i className="material-icons left">cloud</i>Login
-                  </a>
-              }
-            </div>
+      
+  <div className="Login">
+      <div className="container">
+
+        <div className="login-pageX">
+          <div className="formX">
+            <form className="login-formX" id="login_form">
+            <label className="flow-text">LOG IN</label><br/><br/>
+            <input placeholder="Email" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
+            <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
+              <br/><br/>  {this.errorMessage()}
+                {
+                  this.props.loginLoading ?
+                    "Loading..." :
+                    <button className="red waves-effect waves-light" onClick={this.performLogin} >
+                      Login
+                    </button>
+                }
+            <br/><label>New here?</label>
+            </form>
           </div>
         </div>
+
       </div>
+    </div>
     );
   }
 }
