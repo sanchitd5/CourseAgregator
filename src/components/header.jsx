@@ -9,7 +9,7 @@ class Header extends Component {
   constructor(props){
     super(props);
     this.state={};
-	this.assignDropdown();
+    M.AutoInit();
   }
 
   logout = (e) => {
@@ -19,8 +19,8 @@ class Header extends Component {
     
   }
   assignDropdown= () =>{
-    let elem= document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(elem,{constrainWidth: false, coverTrigger: false});
+    let dropper= document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(dropper,{constrainWidth: false, coverTrigger: false});
     console.log("Dropdown Triggered");
   }
   componentDidMount(){
@@ -38,8 +38,8 @@ class Header extends Component {
               <ul className="right">
               <li>
                 
-              {(this.props.loggedIn?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i></a>:'')}
-
+              {(this.props.HeaderLoggedIn?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i></a>:(this.props.LoginPage?'':<Link to="/login"><a className="btn red" href="#!">Login</a></Link>))}
+              
                 </li>
               </ul>
             </div>

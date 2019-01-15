@@ -1,4 +1,4 @@
-import AppHelper from "helpers/AppHelper.js";
+
 import { axiosClient } from 'index.js';
 
 class API {

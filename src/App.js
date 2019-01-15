@@ -15,14 +15,17 @@ import Team from 'views/team/team.jsx';
 import CourseHome from 'views/CourseHome/CourseHome.jsx'
 import CoursesContent from 'views/CoursesContent/CoursesContent.jsx'
 import Agent from 'views/Agent/Agent.jsx'
+import Landing from 'views/Landing/landingView.jsx'
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'DLP React Boilerplate',
+      title: 'c0dename-b00keep3R',
     };
     this.stateHandler = this.stateHandler.bind(this);
+
   }
 
   // Used to handle state from children
@@ -45,16 +48,20 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.loading) return (<LoadingComponent />);
-    else return (
+    if (this.props.loading){ return (<LoadingComponent />);}
+    else {
+      return (
       <div className="App">
         {/* Header */}
-        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler} /> : ''}
-        
+        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler} HeaderLoggedIn={true} /> : <Header title={this.state.title} HeaderLoggedIn={false} />}
+        <main>
         {/* Main body */}
         <Switch>
           
           <Route exact path='/' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+            <Redirect to='/home' /> : <Landing /> )}
+          />
+          <Route exact path='/login' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
             <Redirect to='/home' /> : <Login parentState={this.state} parentProps={this.props} /> )}
           />
           <Route exact path='/home' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
@@ -75,11 +82,12 @@ class App extends Component {
           <Route render={() => <div>404 Error</div>} />
 
         </Switch>
-
+            </main>
         {/* Footer */}
-        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Footer /> : ''}
+        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Footer /> : <Footer/>}
       </div>
     );
+  }
   }
 }
 
