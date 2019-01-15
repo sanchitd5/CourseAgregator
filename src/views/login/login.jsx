@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { requestLogin, developerModeLogin } from 'actions';
 import MainBackground from 'images/login_background.jpg'
 import M from 'materialize-css';
+import {Link} from 'react-router-dom';
+
 
 class Login extends Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class Login extends Component {
       console.log('inside developerMode login');
       this.props.dispatchDeveloperModeLogin();
       AppHelper.developerModeLoginUser(true);
-      
+      M.AutoInit();
       return;
     }
     console.log('outside developerMode login');
@@ -98,6 +100,7 @@ class Login extends Component {
           <div className="formX">
             <form className="login-formX" id="login_form">
             <label className="flow-text">LOG IN</label><br/><br/>
+            <div className="section">
             <input placeholder="Email" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
             <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
               <br/><br/>  {this.errorMessage()}
@@ -108,7 +111,8 @@ class Login extends Component {
                       Login
                     </button>
                 }
-            <br/><label>New here?</label>
+                </div>
+            <Link to="/signup"><label><h6>New here?</h6></label></Link>
             </form>
           </div>
         </div>

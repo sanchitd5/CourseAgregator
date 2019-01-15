@@ -24,7 +24,7 @@ class CourseHome extends Component {
           
         };
       this.filterButtonInit();
-       
+      this.searchToggle=this.searchToggle.bind(this);
     }
   
     filterButtonInit()
@@ -37,9 +37,9 @@ class CourseHome extends Component {
 
     searchToggle(){
       if(this.state.searchIsHidden)
-      {this.state.searchIsHidden=false;}
+      {this.setState({searchIsHidden:false});}
       else
-      {this.state.searchIsHidden=true;}
+      {this.setState({searchIsHidden:true});}
 
     }
 
@@ -100,16 +100,15 @@ class CourseHome extends Component {
       
         
           <div className="container">
-          {this.state.searchIsHidden &&
-          <div className="card-panel hide-on-large-only">
-            <div className="row"><div className="col s8">
+          {!this.state.searchIsHidden &&
+          <div className=" valign-wrapper card-panel row section hoverable hide-on-large-only">
+            <div className="col s8">
               <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" />
             </div>
-            
             <div className="col s4">
             <Sidebar dataexperience={this.handleexperience} datauniversity={this.handleuniversity} datafees={this.handlefees} datacountry={this.handlecountry} datacoursetype={this.handlecoursetype}/>
             </div>
-          </div></div>}
+          </div>}
           
             <div className="row">
               <div className="col l12 s0 m0 hide-on-med-and-down card-panel hide"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>
@@ -169,7 +168,6 @@ class CourseHome extends Component {
               <div className="col l7 m12 s12">     
                   {
                     this.state.tempcatalogue.map((value) => {
-                      
                       return (  <div>
                                       <Cards showButton="true" data={value} agents={this.state.agents}  Ctype="Cdesc" previousField={this.props.location.feild}/>
                                 </div>
@@ -198,7 +196,7 @@ class CourseHome extends Component {
           </div>
           
                 <div className="fixed-action-btn hide-on-large-only">
-  <a className="btn-floating btn-large red" onClick={this.searchToggle()} href="#!">
+  <a className="btn-floating btn-large red" onClick={this.searchToggle} href="#!">
     <i className="large material-icons">search</i>
   </a>
 </div>

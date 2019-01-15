@@ -18,6 +18,7 @@ class Header extends Component {
     AppHelper.logoutUser()
     
   }
+
   assignDropdown= () =>{
     let dropper= document.querySelectorAll('.dropdown-trigger');
     M.Dropdown.init(dropper,{constrainWidth: false, coverTrigger: false});
@@ -36,9 +37,8 @@ class Header extends Component {
             <div className="nav-wrapper">
              <div className="brand-logo center"><Link to="/home">b00keep3r</Link></div>
               <ul className="right">
-              <li>
-                
-              {(this.props.HeaderLoggedIn?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i></a>:(this.props.LoginPage?'':<Link to="/login"><a className="btn red" href="#!">Login</a></Link>))}
+              <li>                
+              {(AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i></a>:<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
               
                 </li>
               </ul>

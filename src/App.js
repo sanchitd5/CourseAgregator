@@ -16,7 +16,7 @@ import CourseHome from 'views/CourseHome/CourseHome.jsx'
 import CoursesContent from 'views/CoursesContent/CoursesContent.jsx'
 import Agent from 'views/Agent/Agent.jsx'
 import Landing from 'views/Landing/landingView.jsx'
-
+import SignUp from 'views/SignUp/signup'
 
 class App extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class App extends Component {
       return (
       <div className="App">
         {/* Header */}
-        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler} HeaderLoggedIn={true} /> : <Header title={this.state.title} HeaderLoggedIn={false} />}
+        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler}/> : <Header loginLABEL="Login" title={this.state.title} />}
         <main>
         {/* Main body */}
         <Switch>
@@ -63,6 +63,8 @@ class App extends Component {
           />
           <Route exact path='/login' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
             <Redirect to='/home' /> : <Login parentState={this.state} parentProps={this.props} /> )}
+          />
+          <Route exact path='/signup' component={SignUp}  
           />
           <Route exact path='/home' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
             <Home {...props}/> : <Redirect to='/' /> )} 
