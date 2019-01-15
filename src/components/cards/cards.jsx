@@ -98,9 +98,27 @@ class Cards extends Component {
       </div>
       );
     }
-    else{
-      return(<br/>
-      );
+    else if(this.props.Ctype==="dummy"){
+      return(
+        <div className="row">
+        <div className="col s12 m12">
+          <div className="card darken-1">
+            <div className="card-content black-text">
+              <span className="card-title">Dummy Card</span>
+              <div className="divider"></div>
+              <br/>
+              <p>
+                LOREM OPSEM
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+            );
+    } else{
+      return(
+        null
+        );
     }
     }
     }

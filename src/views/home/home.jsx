@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Card from 'components/cards/cards.jsx';
 import { Parallax } from 'react-parallax';
 import M from 'materialize-css'
+import Cards from 'components/cards/cards';
 
 class Home extends Component {
   constructor(props) {
@@ -26,16 +26,26 @@ class Home extends Component {
       <div className="Home">
 
       <Parallax bgImage={require('images/bg.jpg')} >
-        <main className="container">
+        <div className="container">   
         <p className="flow-text">Select your Course Type</p>
-        <br/>
+        <br/><div className="row">
+        
+        <div className="col l6 m9 s12">
          { 
          this.state.coursetypes.map((value,id) => {
                     return (
-                            <Card key={id} Ctype="btn" data={value}/>
+                            <Cards key={id} Ctype="btn" data={value}/>
                     )
                 })}
-        </main>
+        </div>
+        <div className="col l4 m3 s0 ">
+        <p className="flow-text">Advertisments</p>
+        <Cards Ctype="dummy"/>
+        <Cards Ctype="dummy"/>
+        <Cards Ctype="dummy" />
+        </div>
+        </div>
+        </div>  
         </Parallax>
       </div>
 

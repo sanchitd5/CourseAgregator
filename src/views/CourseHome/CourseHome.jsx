@@ -4,12 +4,14 @@ import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import Sidebar from 'components/sidebar/sidebar.jsx';
 import M from 'materialize-css'
+import MainBackground from 'images/bg.jpg'
 
 class CourseHome extends Component {
     constructor(props) {
         super(props);
        
         this.state = {
+            backgroundImage: 'url('+MainBackground+')',
             catalogue:[],
             agents:[],
             search:'',
@@ -94,6 +96,7 @@ class CourseHome extends Component {
     if (this.state.catalogue.length === 0) return <LoadingComponent/>;
     if (this.state.agents.length === 0) return <LoadingComponent/>;
     if(this.state.filterationFlag===0)this.courseFilter();
+    document.body.style.backgroundImage=this.state.backgroundImage;
     return (
      
       <div className="Courses">
@@ -168,10 +171,10 @@ class CourseHome extends Component {
 
               <div className="col l7 m12 s12">     
                   {
-                    this.state.tempcatalogue.map((value) => {
-                      return (  <div>
-                                      <Cards showButton="true" data={value} agents={this.state.agents}  Ctype="Cdesc" previousField={this.props.location.feild}/>
-                                </div>
+                    this.state.tempcatalogue.map((value,i) => {
+                      return (  
+                                      <Cards key={i} showButton="true" data={value} agents={this.state.agents}  Ctype="Cdesc" previousField={this.props.location.feild}/>
+                                
                               )
                                                               }
                               
@@ -187,10 +190,12 @@ class CourseHome extends Component {
                           :'')
                     }          
               </div>
-              <div className="card-panel col l2 m0 s0 hide-on-med-and-down">
-              Dummy Content
+              <div className="col l2 m0 s0 hide-on-med-and-down">
+              
 
-              <Cards/>
+              <Cards Ctype="dummy"/>
+              <Cards Ctype="dummy"/>
+              <Cards Ctype="dummy"/>
               
               </div>
             </div>
