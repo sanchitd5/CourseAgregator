@@ -36,7 +36,7 @@ class Landing extends Component {
   this.state.data.map((value,i) => {
     return ( <Cards key={i} data={value} agents={this.state.agents}  Ctype="landing"/>)
       })
-                                          }       
+}       
       </div>
       </div>
     );
