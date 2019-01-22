@@ -69,7 +69,7 @@ class CourseHome extends Component {
 
     updateSearch = (event) => {
       this.setState({search:event.target.value});
-      this.courseFilter();  
+        
     }
 
     componentWillMount(){
@@ -122,8 +122,9 @@ class CourseHome extends Component {
                 {if(this.state.university==="true"||catalogue.University===this.state.university)
                   { 
                     if(catalogue.coursetype===this.state.pageCourseType)
-                      {            
-                        return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                      {
+                        if(this.state.search===''||catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase())>-1)            
+                        {return catalogue.Title;}
                       }
                 }
               }
@@ -219,7 +220,8 @@ class CourseHome extends Component {
           </div>}
           
             <div className="row">
-              {!this.state.deskSearchIsHidden&&<div className="col l12 s0 m0 hide-on-med-and-down card-panel"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>}
+              {!this.state.deskSearchIsHidden&&<div className="valign-wrapper card-panel row hide-on-med-and-down hoverable"><div className="col l11 s0 m0"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>
+              <div className="col l1 s0 m0"><a href="#!" onClick={this.courseFilter} className="btn red white-text">Search</a></div></div>}
               <div className="card-panel col l3 s0 m0 hide-on-med-and-down">
               <p className="flow-text">Filters</p>
               <div className="divider"></div><br/>

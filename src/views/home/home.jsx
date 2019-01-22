@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Cards from 'components/cards/cards';
 
 class Home extends Component {
