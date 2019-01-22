@@ -70,7 +70,7 @@ class SignUp extends Component {
       stateHandler({userdetails:users});   
       console.log(this.state.userdetails);
        if(this.state.userdetails.indexOf(this.state.signUp.username) >= 0){
-        this.setState({flag:true});
+        this.setState({signupUserFlag:true});
         M.toast({html:'User Already Exists!'});
         
       return;

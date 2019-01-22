@@ -25,7 +25,7 @@ class Header extends Component {
     console.log("Dropdown Triggered");
   }
   componentDidMount(){
-    this.assignDropdown();
+    this.assignDropdown()
   }
  
   render() {
@@ -42,7 +42,9 @@ class Header extends Component {
              <div className="brand-logo center"><Link to="/home">b00keep3r</Link></div>
               <ul className="right">
               <li>                
-                {(AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>:<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
+                {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>
+                
+                :<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
                 </li>
               </ul>
             </div>

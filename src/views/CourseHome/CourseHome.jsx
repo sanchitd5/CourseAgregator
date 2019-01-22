@@ -20,10 +20,17 @@ class CourseHome extends Component {
               coursetype:'',
               country:'',
             filterationFlag:0,
+            filterationFlag2:0,
             searchIsHidden:true,            
             deskSearchIsHidden:true,
             pageCourseType:this.props.location.feild,
+            tempUni:[],
+            tempDegree:[],
+            tempFee:[],
+            tempCountry:[],
+            tempExp:[],
         };
+        this.loadFilters=this.loadFilters.bind(this);
       this.filterButtonInit();
     }
   
@@ -55,13 +62,20 @@ class CourseHome extends Component {
 
     }
 
+   
+    
+    
+
     updateSearch = (event) => {
       this.setState({search:event.target.value});
       this.courseFilter();  
     }
+
+    componentWillMount(){
+      this.getCourses();
+    }
      componentDidMount() {
         
-        this.getCourses();
         this.getAgents();      }
       stateHandler = (state) => {
         this.setState(state);
@@ -96,19 +110,58 @@ class CourseHome extends Component {
       courseFilter= (filteredCourses) => {
         filteredCourses=this.state.catalogue.filter(
           (catalogue)=>{
-            if(catalogue.coursetype===this.state.pageCourseType)
+              if(catalogue.coursetype===this.state.pageCourseType)
               {            
                 return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
               }
           })
       this.setState({tempcatalogue:filteredCourses});
       this.setState({filterationFlag:1});
+      
       }
+
+      loadFilters(){
+          let filterUni=[];
+          let filterExp=[];
+          let filterFee=[];
+          let filterCountry=[];
+          let filterDegree=[];
+          
+          this.state.catalogue.map((value,key)=>{
+            
+            if(value.coursetype===this.state.pageCourseType)
+              {
+                if (filterUni.indexOf(value.University) === -1) {
+                  filterUni.push(value.University)
+                }
+                if (filterDegree.indexOf(value.CourseType) === -1) {
+                  filterDegree.push(value.CourseType)
+                }
+                if (filterExp.indexOf(value.experience) === -1) {
+                  filterExp.push(value.experience)
+                }
+                if (filterFee.indexOf(value.Fees) === -1) {
+                  filterFee.push(value.Fees)
+                }
+                if (filterCountry.indexOf(value.Country) === -1) {
+                  filterCountry.push(value.Country)
+                }
+              }
+          });
+          this.setState({tempUni:filterUni});
+          this.setState({tempExp:filterExp});
+          this.setState({tempCountry:filterCountry});
+          this.setState({tempDegree:filterDegree});
+          this.setState({tempFee:filterFee});
+}
+
+    
   render() {
-   
     if (this.state.catalogue.length === 0) return <LoadingComponent/>;
     if (this.state.agents.length === 0) return <LoadingComponent/>;
-    if(this.state.filterationFlag===0)this.courseFilter();
+    if(this.state.filterationFlag===0){this.courseFilter();
+    this.loadFilters();}
+    
     document.body.style.backgroundImage=this.state.backgroundImage;
     return (
      
@@ -135,17 +188,28 @@ class CourseHome extends Component {
                     <div className=" input-field col s12">
                     <select id="University" onChange={this.onChangedUniversity}>
                         <optgroup label="University">
-                            <option value="Deakin">Deakin</option>
-                            <option value="RMIT">RMIT</option>
-                        </optgroup>
+                         
+                            {
+                              this.state.tempUni&&
+                               this.state.tempUni.map((value,key)=>{
+                                return( <option value={value}>{value}</option>)
+                              })
+                              
+                            }
+                            </optgroup>
                         </select>
                         <label>University</label>
                     </div>
                     <div className="input-field col s12">
                     <select id="Experience" onChange={this.onChangedExperience}>
                         <optgroup label="Experience">
-                            <option value="5">5</option>
-                            <option value="6">6</option>
+                        {
+                              this.state.tempExp&&
+                               this.state.tempExp.map((value,key)=>{
+                                return( <option value={value}>{value}</option>)
+                              })
+                              
+                            }
                         </optgroup>
                         </select>
                         <label>Experience in Years</label>
@@ -153,27 +217,35 @@ class CourseHome extends Component {
                     <div className="input-field col s12">
                     <select  id="Fees" onChange={this.onChangedFees}>
                         <optgroup label="Fees">
-                            <option value="500000">450000 to 550000</option>
-                            <option value="600000">550000 to 650000</option>
+                        {
+                              this.state.tempFee&&
+                               this.state.tempFee.map((value,key)=>{
+                                return( <option value={value}>{value}</option>)
+                              })
+                              
+                            }
                         </optgroup>
                         </select>
                         <label>Fee Interval(AUD)</label>
                     </div>
                     <div className="input-field col s12">
                     <select id="Country" onChange={this.onChangedCountry}>
-                        <optgroup label="Country">
-                            <option value="USA">USA</option>
-                            <option value="Pakistan">Pakistan</option>
-                        </optgroup>
+                    {  this.state.tempCountry&&
+                               this.state.tempCountry.map((value,key)=>{
+                                return( <option value={value}>{value}</option>)
+                              }) 
+                            }
                         </select>
                         <label>Country</label>
                     </div>
                     <div className="input-field col s12">
                     <select id="CourseType" onChange={this.onChangedCourseType}>
-                        <optgroup label="Course Type">
-                            <option value="Master">Master</option>
-                            <option value="PHD">PHD</option>
-                            <option value="Bachelor">Bachelor</option>
+                        <optgroup label="Course Type"> 
+                        {  this.state.tempDegree&&
+                               this.state.tempDegree.map((value,key)=>{
+                                return( <option value={value}>{value}</option>)
+                              }) 
+                            }
                         </optgroup>
                         </select>
                         <label>Degree Type</label>
