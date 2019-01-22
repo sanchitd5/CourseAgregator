@@ -9,7 +9,6 @@ class Header extends Component {
   constructor(props){
     super(props);
     this.state={};
-    this.assignDropdown=this.assignDropdown.bind(this);
   }
 
   logout = (e) => {
@@ -20,14 +19,18 @@ class Header extends Component {
   }
 
   assignDropdown= () =>{
-    let dropper= document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(dropper,{constrainWidth: true, coverTrigger: false});
-    console.log("Dropdown Triggered");
+    
+    M.Dropdown.init(this.dropdown,{constrainWidth: true, coverTrigger: false});
+    console.log("Dropdown Initilized");
   }
   componentDidMount(){
-    this.assignDropdown()
+    this.assignDropdown();
   }
  
+  stateHandler = (state) => {
+    this.setState(state);
+  }
+
   render() {
 
     return (
@@ -42,7 +45,7 @@ class Header extends Component {
              <div className="brand-logo center"><Link to="/home">b00keep3r</Link></div>
               <ul className="right">
               <li>                
-                {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>
+                {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' ref={ (dropdown) => {this.dropdown = dropdown}} data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>
                 
                 :<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
                 </li>

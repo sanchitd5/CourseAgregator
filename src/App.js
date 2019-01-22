@@ -18,6 +18,7 @@ import Agent from 'views/Agent/Agent.jsx'
 import Landing from 'views/Landing/landingView.jsx'
 import SignUp from 'views/SignUp/signup'
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,15 +26,15 @@ class App extends Component {
       title: 'c0dename-b00keep3R',
     };
     this.stateHandler = this.stateHandler.bind(this);
-
   }
 
   // Used to handle state from children
   stateHandler = (state) => {
     this.setState(
       state
-    )
+    );
   }
+  
 
   componentDidMount() {
     let token = ''
@@ -54,6 +55,7 @@ class App extends Component {
       <div className="App">
         {/* Header */}
         {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler}/> : <Header loginLABEL="Login" title={this.state.title} />}
+        
         <main>
         {/* Main body */}
         <Switch>
