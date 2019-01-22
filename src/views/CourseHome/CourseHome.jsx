@@ -14,11 +14,11 @@ class CourseHome extends Component {
             agents:[],
             search:'',
             tempcatalogue:[],
-            experience:'',
-            university:'',
-            fees:'',
-            coursetype:'',
-            country:'',
+            experience:"true",
+            university:"true",
+            fees:"true",
+            coursetype:"true",
+            country:"true",
             filterationFlag:0,
             filterationFlag2:0,
             searchIsHidden:true,            
@@ -32,7 +32,7 @@ class CourseHome extends Component {
         };
         this.loadFilters=this.loadFilters.bind(this);
       this.filterButtonInit();
-    
+        this.filteration=this.filteration.bind(this);
     }
   
     initilizeSelector(){
@@ -115,11 +115,20 @@ class CourseHome extends Component {
       courseFilter= (filteredCourses) => {
         filteredCourses=this.state.catalogue.filter(
           (catalogue)=>{
-              if(catalogue.coursetype===this.state.pageCourseType)
-              {            
-                return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            if(this.state.experience==="true"||catalogue.experience===this.state.experience)
+            {  if(this.state.country==="true"||catalogue.Country===this.state.country)
+              {  if(this.state.fees==="true"||catalogue.Fees===this.state.fees)
+              {if(this.state.coursetype==="true"||catalogue.CourseType===this.state.coursetype)
+                {if(this.state.university==="true"||catalogue.University===this.state.university)
+                  { 
+                    if(catalogue.coursetype===this.state.pageCourseType)
+                      {            
+                        return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                      }
+                }
               }
-          })
+              }}}}
+          )
       this.setState({tempcatalogue:filteredCourses});
       this.setState({filterationFlag:1});
       
@@ -161,29 +170,27 @@ class CourseHome extends Component {
 }
 
   filteration=(data)=>{
+
       if(data.target.id==="University")
-      {
-        this.setState({university: data.target.value});
-      }
-      if(data.target.id==="Experience")
-      {
-        this.setState({experience: data.target.value});
-      }
-      if(data.target.id==="Fees")
-      {
-        this.setState({fees: data.target.value});
-      }
-      if(data.target.id==="Country")
-      {
-        this.setState({country: data.target.value});
-      }
-      if(data.target.id==="CourseType")
-      {
-        this.setState({coursetype: data.target.value});
-      }
-      console.log(data.target.id,":",data.target.value); 
-  }
-  filteration2(){
+        {
+          this.setState({university: data.target.value});
+        }
+        if(data.target.id==="Experience")
+        {
+          this.setState({experience: data.target.value});
+        }
+        if(data.target.id==="Fees")
+        {
+          this.setState({fees: data.target.value});
+        }
+        if(data.target.id==="Country")
+        {
+          this.setState({country: data.target.value});
+        }
+        if(data.target.id==="CourseType")
+        {
+          this.setState({coursetype: data.target.value});
+        }
   }
 
     
@@ -191,7 +198,8 @@ class CourseHome extends Component {
     if (this.state.catalogue.length === 0) return <LoadingComponent/>;
     if (this.state.agents.length === 0) return <LoadingComponent/>;
     if(this.state.filterationFlag===0){this.courseFilter();
-    this.loadFilters();}
+    this.loadFilters();
+  }
     
     document.body.style.backgroundImage=this.state.backgroundImage;
     return (
@@ -279,6 +287,7 @@ class CourseHome extends Component {
                         </select>
                         <label>Degree Type</label>
                     </div>
+                    <a href="#!" className="btn red white-text" onClick={this.courseFilter}>Filter</a>
                     </form>
                     </div>
               </div>
