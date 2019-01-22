@@ -31,15 +31,18 @@
             this.handleCourseTypeChange=this.handleCourseTypeChange.bind(this)
         
         }
-        
+        initilizeSelector(){
+            let selector = document.querySelectorAll('select');
+            M.FormSelect.init(selector);
+        }
+
         componentDidMount() {
             let elem = document.querySelector(".sidenav");
             M.Sidenav.init(elem, {
                 edge: "left",
                 inDuration: 250
             });
-            let selector = document.querySelectorAll('select');
-            M.FormSelect.init(selector);
+            this.initilizeSelector();
           }
 
         //set the state but its not updated

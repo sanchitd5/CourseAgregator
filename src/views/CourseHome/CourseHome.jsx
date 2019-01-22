@@ -3,38 +3,47 @@ import Cards from 'components/cards/cards.jsx'
 import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import Sidebar from 'components/sidebar/sidebar.jsx';
-import M from 'materialize-css'
-import MainBackground from 'images/bg.jpg'
+import M from 'materialize-css';
 
 class CourseHome extends Component {
     constructor(props) {
         super(props);
-       
         this.state = {
-            backgroundImage: 'url('+MainBackground+')',
+            backgroundImage: 'url()',
             catalogue:[],
             agents:[],
             search:'',
             tempcatalogue:[],
-            filteration: {experience:'experience',
+            experience:'experience',
               university:'Deakin',
               fees:'',
               coursetype:'',
-              country:''},
+              country:'',
             filterationFlag:0,
-            searchIsHidden:true            
-          
+            searchIsHidden:true,            
+            deskSearchIsHidden:true,
+            pageCourseType:this.props.location.feild,
         };
       this.filterButtonInit();
-      
     }
   
+    initilizeSelector(){
+      let selector = document.querySelectorAll('select');
+      M.FormSelect.init(selector);
+    }
+
     filterButtonInit()
     {
     let filterElem = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(filterElem);
-    let selector = document.querySelectorAll('select');
-    M.FormSelect.init(selector);
+    }
+
+    deskSearchToggle(){
+      if(this.state.deskSearchIsHidden)
+      {this.setState({deskSearchIsHidden:false});}
+      else
+      {this.setState({deskSearchIsHidden:true});}
+
     }
 
 
@@ -51,13 +60,14 @@ class CourseHome extends Component {
       this.courseFilter();  
     }
      componentDidMount() {
-
+        
         this.getCourses();
         this.getAgents();      }
       stateHandler = (state) => {
         this.setState(state);
+        this.initilizeSelector();
       }
-    
+      
       getCourses = () => {
         API.getCourses(this.stateHandler);
       }
@@ -66,27 +76,30 @@ class CourseHome extends Component {
       }
             
       handleexperience = (experience) => {
-        this.filteration.setState({experience: experience});
+        this.setState({experience: experience});
       }
       handleuniversity= (university) => {
-        this.filteration.setState({university: university});
+        this.setState({university: university});
       }
       handlecountry= (country) => {
-        this.filteration.setState({country: country});
+        this.setState({country: country});
       }
 
       handlefees= (fees) => {
-        this.filteration.setState({fees: fees});
+        this.setState({fees: fees});
       }
 
       handlecoursetype= (coursetype) => {
-        this.filteration.setState({coursetype: coursetype});
+        this.setState({coursetype: coursetype});
       }
 
       courseFilter= (filteredCourses) => {
         filteredCourses=this.state.catalogue.filter(
           (catalogue)=>{
-            return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            if(catalogue.coursetype===this.state.pageCourseType)
+              {            
+                return catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+              }
           })
       this.setState({tempcatalogue:filteredCourses});
       this.setState({filterationFlag:1});
@@ -101,8 +114,7 @@ class CourseHome extends Component {
      
       <div className="Courses">
       <br/>
-      
-        
+       
           <div className="container">
           {!this.state.searchIsHidden &&
           <div className=" valign-wrapper card-panel row section hoverable hide-on-large-only">
@@ -115,7 +127,7 @@ class CourseHome extends Component {
           </div>}
           
             <div className="row">
-              <div className="col l12 s0 m0 hide-on-med-and-down card-panel hide"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>
+              {!this.state.deskSearchIsHidden&&<div className="col l12 s0 m0 hide-on-med-and-down card-panel"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>}
               <div className="card-panel col l3 s0 m0 hide-on-med-and-down">
               <p className="flow-text">Filters</p>
               <div className="divider"></div><br/>
@@ -203,6 +215,10 @@ class CourseHome extends Component {
           
                 <div className="fixed-action-btn hide-on-large-only">
   <a className="btn-floating btn-large red" onClick={()=>{this.searchToggle()}} href="#!">
+    <i className="large material-icons">search</i>
+  </a></div>
+  <div className="fixed-action-btn hide-on-med-and-down">
+  <a className="btn-floating btn-large red" onClick={()=>{this.deskSearchToggle()}} href="#!">
     <i className="large material-icons">search</i>
   </a>
 </div>

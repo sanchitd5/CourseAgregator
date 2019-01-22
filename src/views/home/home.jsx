@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Parallax } from 'react-parallax';
 import M from 'materialize-css'
 import Cards from 'components/cards/cards';
 
@@ -16,7 +15,7 @@ class Home extends Component {
     M.AutoInit();
   }    
   
-
+  
 
   componentDidMount(){
   }
@@ -24,8 +23,6 @@ class Home extends Component {
 
     return (
       <div className="Home">
-
-      <Parallax bgImage={require('images/bg.jpg')} >
         <div className="container">   
         <p className="flow-text">Select your Course Type</p>
         <br/><div className="row">
@@ -46,7 +43,7 @@ class Home extends Component {
         </div>
         </div>
         </div>  
-        </Parallax>
+
       </div>
 
     );

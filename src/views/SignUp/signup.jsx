@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import MainBackground from 'images/login_background.jpg'
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import API from 'helpers/api.js'
 import M from 'materialize-css'
 
 class SignUp extends Component {
@@ -14,6 +13,7 @@ class SignUp extends Component {
       errorMsg: '',
       signUp:{fName:"",lName:"",username:"",pass:"",cPass:""},
       userdetails:[],
+      signupUserFlag:false,
     };
 
     
@@ -69,9 +69,8 @@ class SignUp extends Component {
       });
       stateHandler({userdetails:users});   
       console.log(this.state.userdetails);
-      let flag=false;
-      if(this.state.userdetails.indexOf(this.state.signUp.username) >= 0){
-        flag=true;
+       if(this.state.userdetails.indexOf(this.state.signUp.username) >= 0){
+        this.setState({flag:true});
         M.toast({html:'User Already Exists!'});
         
       return;
