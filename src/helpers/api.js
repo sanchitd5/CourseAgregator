@@ -17,10 +17,7 @@ class API {
     .catch((error) => console.log(error));
   }
 
- 
 
-    
-    
   
   getCourses=(stateHandler) =>{
     axiosClient.get("https://launchpad-red.au-syd.mybluemix.net/agregator/api/courses").then((response)=>

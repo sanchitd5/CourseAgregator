@@ -66,6 +66,7 @@ class SignUp extends Component {
       res.data.map((value,i)=>
       {
           users.push(value.username);
+          return value;
       });
       stateHandler({userdetails:users});   
       console.log(this.state.userdetails);
@@ -84,6 +85,7 @@ class SignUp extends Component {
         console.log(res.data);
                     });
       }
+      
     });
     
   }

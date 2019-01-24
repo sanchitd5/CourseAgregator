@@ -1,0 +1,136 @@
+$body-bg: #FAFAFA;
+//Other pretty primary colors: E91E63 FF5722
+$primary-col: #03A9F4;
+$accent-col: #FFC400;
+$accent-fallback: #FFD740;
+
+$font-stack: Roboto, sans-serif;
+$easer: cubic-bezier(0.4, 0, 0.2, 1);
+
+body {
+  font-family: $font-stack;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: #FFF;
+  background: $body-bg;
+}
+
+h1{
+  font-weight: 700;
+  font-size: 64px;
+  margin: 20px 0 0 0;
+  padding: 0 20px;
+}
+
+p{
+  font-size: 16px;
+  padding: 0 20px;
+}
+
+em{
+  font-style: normal;
+  color: $accent-col;
+}
+
+a{
+  font-style: normal;
+  color: $accent-fallback;
+  text-decoration: none;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.sub{
+  margin: 0;
+}
+
+.button{
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  font-size: 20px;
+  line-height: 60px;
+  font-weight: bold;
+  transform: rotate(45deg);
+
+  transition: all 0.7s $easer;
+}
+.expand .button {
+  transform: rotate(630deg);
+
+  transition: all 0.5s $easer;
+}
+
+.container {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 5vh;  
+  background-color: $primary-col;
+
+  border-radius: 50%;
+  width: 60px;
+  max-width: 60px;
+  height: 60px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  overflow: hidden;
+
+  transition: all 0.2s 0.45s,
+              height 0.2s $easer 0.25s, 
+              max-width 0.2s $easer 0.35s, 
+              width 0.2s $easer 0.35s;
+}
+.container.expand {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.17);
+  border-radius: 0;
+  width: 80%;
+  height: 500px;
+  max-width: 600px;
+  padding: 0;
+
+  transition: all 0.2s, max-width 0.2s $easer 0.1s, height 0.3s ease 0.25s;
+}
+
+.content {
+  transform: translateY(100%);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  text-align: left;
+
+  transition: transform 0.2s $easer, opacity 0.2s 0.2s;
+}
+.expand .content {
+  transform: translateY(0px);
+  opacity: 1;
+  transition: transform 0.7s $easer 0.05s, opacity 0s;
+}
+
+.content .head {
+  padding: 0 0 20px 0;
+}
+.content .body {
+  color: #000;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #FFF;
+  width: 100%;
+  height: 100%;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.action-bar {
+  padding-left: 15px;
+  border-top: 1px solid #E0E0E0;
+  width: 100%;
+}
+.action-bar a {
+  text-transform: uppercase;
+  line-height: 52px;
+  color: $accent-col;
+}

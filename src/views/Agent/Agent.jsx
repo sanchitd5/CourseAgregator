@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Parallax } from 'react-parallax';
+
 
 
 
@@ -10,7 +10,6 @@ class Agent extends Component {
   render() {
     return (
       <div className="Home">
-        <Parallax bgImage={require('images/bg.jpg')} >
           <h1>WELCOME</h1>
           <h5>Contact {this.props.location.state.agent}</h5>
           <div className="row" >
@@ -30,7 +29,6 @@ class Agent extends Component {
               </div>
             </form>
           </div>
-        </Parallax>
       </div>
     );
   }

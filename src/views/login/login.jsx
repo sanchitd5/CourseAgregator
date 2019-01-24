@@ -5,7 +5,7 @@ import { requestLogin, developerModeLogin } from 'actions';
 import MainBackground from 'images/login_background.jpg'
 import M from 'materialize-css';
 import {Link} from 'react-router-dom';
-
+import 'views/login/loginStyle.css'
 
 class Login extends Component {
   constructor(props) {
