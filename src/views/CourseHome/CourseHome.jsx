@@ -31,7 +31,7 @@ class CourseHome extends Component {
             tempExp:[],
         };
         this.loadFilters=this.loadFilters.bind(this);
-      this.filterButtonInit();
+        this.filterButtonInit();
         this.filteration=this.filteration.bind(this);
     }
   
@@ -39,7 +39,14 @@ class CourseHome extends Component {
       let selector = document.querySelectorAll('select');
       M.FormSelect.init(selector,{coverTrigger:false});
     }
-
+    initilizeSidenav(){
+      let sidenavigator = document.querySelectorAll('.sidenav');
+      M.Sidenav.init(sidenavigator,{
+        edge: "left",
+        inDuration: 250
+      });
+      this.initilizeSelector();
+    }
     filterButtonInit()
     {
     let filterElem = document.querySelectorAll('.fixed-action-btn');
@@ -62,18 +69,19 @@ class CourseHome extends Component {
       {this.setState({searchIsHidden:true});}
 
     }
-
-   
-    
-    
-
+    getCourses = () => {
+      API.getCourses(this.stateHandler);
+    }
+    getAgents = () => {
+      API.getAgents(this.stateHandler);
+    }
     updateSearch = (event) => {
-      this.setState({search:event.target.value});
-        
+      this.setState({search:event.target.value});        
     }
 
     componentWillMount(){
       this.getCourses();
+      
     }
      componentDidMount() {
         this.getAgents();
@@ -85,33 +93,6 @@ class CourseHome extends Component {
         M.AutoInit();
       }
       
-      getCourses = () => {
-        API.getCourses(this.stateHandler);
-      }
-      getAgents = () => {
-        API.getAgents(this.stateHandler);
-      }
-            
-      handleexperience = (experience) => {
-        this.setState({experience: experience});
-        
-      }
-      handleuniversity= (university) => {
-        this.setState({university: university});
-      }
-      handlecountry= (country) => {
-        this.setState({country: country});
-      }
-
-      handlefees= (fees) => {
-        this.setState({fees: fees});
-      }
-
-      handlecoursetype= (coursetype) => {
-        this.setState({coursetype: coursetype});
-         
-      }
-
       courseFilter= (filteredCourses) => {
         filteredCourses=this.state.catalogue.filter(
           (catalogue)=>{
@@ -124,7 +105,9 @@ class CourseHome extends Component {
                     if(catalogue.coursetype===this.state.pageCourseType)
                       {
                         if(this.state.search===''||catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase())>-1)            
-                        {return catalogue.Title;}
+                        {
+                          return catalogue.Title;
+                        }
                       }
                 }
               }
@@ -132,7 +115,6 @@ class CourseHome extends Component {
           )
       this.setState({tempcatalogue:filteredCourses});
       this.setState({filterationFlag:1});
-      
       }
 
       loadFilters(){
@@ -172,23 +154,23 @@ class CourseHome extends Component {
 
   filteration=(data)=>{
 
-      if(data.target.id==="University")
+      if(data.target.id==="University"|data.target.id==="University-sidenav")
         {
           this.setState({university: data.target.value});
         }
-        if(data.target.id==="Experience")
+        if(data.target.id==="Experience"||data.target.id==="Experience-sidenav")
         {
           this.setState({experience: data.target.value});
         }
-        if(data.target.id==="Fees")
+        if(data.target.id==="Fees"||data.target.id==="Fees-sidenav")
         {
           this.setState({fees: data.target.value});
         }
-        if(data.target.id==="Country")
+        if(data.target.id==="Country"||data.target.id==="Country-sidenav")
         {
           this.setState({country: data.target.value});
         }
-        if(data.target.id==="CourseType")
+        if(data.target.id==="CourseType"||data.target.id==="CourseType-sidenav")
         {
           this.setState({coursetype: data.target.value});
         }
@@ -210,14 +192,98 @@ class CourseHome extends Component {
        
           <div className="container">
           {!this.state.searchIsHidden &&
-          <div className=" valign-wrapper card-panel row section hoverable hide-on-large-only">
-            <div className="col s8">
-              <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" />
-            </div>
-            <div className="col s4">
-            <Sidebar dataexperience={this.handleexperience} datauniversity={this.handleuniversity} datafees={this.handlefees} datacountry={this.handlecountry} datacoursetype={this.handlecoursetype}/>
-            </div>
-          </div>}
+          <div className=" row section card-panel hoverable hide-on-large-only">
+              <div className="valign-wrapper">
+                <div className="col s8">
+                  <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" />
+                </div>
+                <div className="col s4">
+                <a href="#!" onClick={this.courseFilter} className=" btn-small red white-text">Search</a>
+                </div>
+              </div>
+                <div className="col s12 left-align">
+                  
+
+                <div id="slide-out" className="sidenav section container">
+            <div className="container">
+              <p className="flow-text center-align strong">Filters</p>
+              <div className="divider"></div><br/>
+              <div className="row">
+                  <form className="center-align" onChange={this.filteration}>
+                    <div className=" input-field col s12">
+
+                    <select id="University-sidenav">
+                        <option value="true">All</option>
+                            {
+                              this.state.tempUni&&
+                               this.state.tempUni.map((value,key)=>{
+                                return( <option key={key} value={value}>{value}</option>)
+                              })
+                              
+                            }
+                        </select>
+                        <label>University</label>
+                    </div>
+                    <div className="input-field col s12">
+                    <select id="Experience-sidenav">
+                        <option value="true">All</option>
+                        {
+                              this.state.tempExp&&
+                               this.state.tempExp.map((value,key)=>{
+                                return( <option key={key} value={value}>{value}</option>)
+                              })
+                              
+                            }
+                        </select>
+                        <label>Experience in Years</label>
+                    </div>
+                    <div className="input-field col s12">
+                    <select  id="Fees">
+                        <option value="true">All</option>
+                        {
+                              this.state.tempFee&&
+                               this.state.tempFee.map((value,key)=>{
+                                return( <option key={key} value={value}>{value}</option>)
+                              })
+                              
+                            }
+                        </select>
+                        <label>Fee Interval(AUD)</label>
+                    </div>
+                    <div className="input-field col s12">
+                    <select id="Country-sidenav">
+                    <option value="true">All</option>
+                    {  this.state.tempCountry&&
+                               this.state.tempCountry.map((value,key)=>{
+                                return( <option key={key} value={value}>{value}</option>)
+                              }) 
+                            }
+                        </select>
+                        <label>Country</label>
+                    </div>
+                    <div className="input-field col s12">
+                    <select id="CourseType-sidenav">
+                        <option value="true">All</option> 
+                        {  this.state.tempDegree&&
+                               this.state.tempDegree.map((value,key)=>{
+                                return( <option key={key} value={value}>{value}</option>)
+                              }) 
+                            }
+                        </select>
+                        <label>Degree Type</label>
+                    </div>
+                    <a href="#!" className="btn red white-text " onClick={this.courseFilter}>Filter</a>
+                    </form>
+                    </div>
+              </div>
+            
+              </div>
+            <a href="#" data-target="slide-out" className=" sidenav-trigger grey-text">Advance Options</a>
+
+                  
+                </div>
+          </div>
+        }{!this.state.searchIsHidden &&this.initilizeSidenav()}
           
             <div className="row">
               {!this.state.deskSearchIsHidden&&<div className="valign-wrapper card-panel row hide-on-med-and-down hoverable"><div className="col l11 s0 m0"><input value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" /></div>
