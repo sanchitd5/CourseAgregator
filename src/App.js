@@ -68,6 +68,8 @@ class App extends Component {
           />
           <Route exact path='/signup' component={SignUp}  
           />
+          <Route exact path='/landing' component={Landing}  
+          />
           <Route exact path='/home' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
             <Home {...props}/> : <Redirect to='/' /> )} 
           />

@@ -5,30 +5,42 @@ import { requestLogout } from 'actions';
 import M from 'materialize-css';
 import {Link} from 'react-router-dom';
 
+
 class Header extends Component {
   constructor(props){
     super(props);
-    this.state={};
+    this.state={
+      loginFlag:false,
+    };
+    this.changeLoginState=this.changeLoginState.bind(this);
+    this.assignDropdown=this.assignDropdown.bind(this);
   }
 
   logout = (e) => {
     e.preventDefault();
+    this.setState({loginFlag:false})
     this.props.dispatchLogout()
     AppHelper.logoutUser()
     
   }
 
-  assignDropdown= () =>{
-    
+ assignDropdown= () =>{  
     M.Dropdown.init(this.dropdown,{constrainWidth: true, coverTrigger: false});
     console.log("Dropdown Initilized");
   }
-  componentDidMount(){
+  componentDidUpdate(){
     this.assignDropdown();
+  }
+  componentDidMount(){
+    
   }
  
   stateHandler = (state) => {
     this.setState(state);
+  }
+  changeLoginState(){
+    if(!this.state.loginFlag)
+    {this.setState({loginFlag:true});}
   }
 
   render() {
@@ -36,18 +48,22 @@ class Header extends Component {
     return (
       <header>
       <div className="navbar-fixed">
-      <ul id='user-dropper' className='dropdown-content grey darken-4'>
+      <ul id='user-dropper' className='dropdown-content grey darken-4 right-align'>
+            <li ><a className="white-text waves-effect waves-light" href="#!" >Anonymous</a></li>
             <li ><a className="white-text waves-effect waves-light" href="#!" disabled="disabled">Settings</a></li>            
             <li ><a onClick={this.logout} className="white-text waves-effect waves-light" href="#!">Logout</a></li>
         </ul>
           <nav className="black lighten-2">
             <div className="nav-wrapper">
+             <ul className="left"><li>
+             {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<Link to="/landing"><i className="whtie-text material-icons">home</i></Link>
+                :'')}</li></ul>
              <div className="brand-logo center"><Link to="/home">b00keep3r</Link></div>
               <ul className="right">
               <li>                
-                {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' ref={ (dropdown) => {this.dropdown = dropdown}} data-beloworigin="true" data-target='user-dropper'>Anonymous<i className="material-icons right">arrow_drop_down</i></a>
+                {(this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn()?<a className='dropdown-trigger' href='#!' ref={ (dropdown) => {this.dropdown = dropdown}} data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">arrow_drop_down</i><i className="large material-icons right">sentiment_very_satisfied</i></a>
                 
-                :<Link to="/login"><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
+                :!this.state.loginFlag&&<Link to="/login" onClick={this.changeLoginState}><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
                 </li>
               </ul>
             </div>

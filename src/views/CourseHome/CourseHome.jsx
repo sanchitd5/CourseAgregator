@@ -277,7 +277,7 @@ class CourseHome extends Component {
               </div>
             
               </div>
-            <a href="#" data-target="slide-out" className=" sidenav-trigger grey-text">Advance Options</a>
+            <a href="#!" data-target="slide-out" className=" sidenav-trigger grey-text">Advance Options</a>
 
                   
                 </div>

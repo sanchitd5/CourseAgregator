@@ -17,15 +17,9 @@ class Login extends Component {
       developerMode: true, // Change this to false to contact API
       error: false,
       errorMsg: ''
-
     };
-
   }
 
-  assignDropdown= () =>{
-    let elem= document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(elem,{alignment:"right",constrainWidth: false});
-  }
 
   errorMessage = () => {
     if (this.state.error) {
