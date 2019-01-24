@@ -2,7 +2,6 @@
 import Cards from 'components/cards/cards.jsx'
 import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
-import Sidebar from 'components/sidebar/sidebar.jsx';
 import M from 'materialize-css';
 
 class CourseHome extends Component {
