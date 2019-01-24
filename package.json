@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "cfenv": "1.0.x",
     "material-icons": "^0.2.3",
+    "material-ui-slider": "^3.0.0",
     "materialize-css": "^1.0.0-rc.2",
     "node-sass": "^4.10.0",
     "react": "^16.6.1",

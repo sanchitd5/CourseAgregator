@@ -3,7 +3,7 @@ import Cards from 'components/cards/cards.jsx'
 import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import M from 'materialize-css';
-import 'views/CourseHome/style.scss'
+import 'views/CourseHome/style.scss';
 
 class CourseHome extends Component {
   constructor(props) {
@@ -14,10 +14,9 @@ class CourseHome extends Component {
       agents: [],
       search: '',
       tempcatalogue: [],
-      experience: "true",
       university: "true",
       fees: "true",
-      coursetype: "true",
+      degreelevel: "true",
       country: "true",
       filterationFlag: 0,
       filterationFlag2: 0,
@@ -28,7 +27,7 @@ class CourseHome extends Component {
       tempDegree: [],
       tempFee: [],
       tempCountry: [],
-      tempExp: [],
+      
     };
     this.loadFilters = this.loadFilters.bind(this);
     this.filterButtonInit();
@@ -75,7 +74,7 @@ class CourseHome extends Component {
   componentDidUpdate() {
     this.initilizeSelector();
     this.initilizeSidenav();
-    
+
   }
   componentWillMount() {
     this.getCourses();
@@ -94,10 +93,9 @@ class CourseHome extends Component {
   courseFilter = (filteredCourses) => {
     filteredCourses = this.state.catalogue.filter(
       (catalogue) => {
-        if (this.state.experience === "true" || catalogue.experience === this.state.experience) {
           if (this.state.country === "true" || catalogue.Country === this.state.country) {
             if (this.state.fees === "true" || catalogue.Fees === this.state.fees) {
-              if (this.state.coursetype === "true" || catalogue.CourseType === this.state.coursetype) {
+              if (this.state.degreelevel === "true" || catalogue.degreelevel === this.state.degreelevel) {
                 if (this.state.university === "true" || catalogue.University === this.state.university) {
                   if (catalogue.coursetype === this.state.pageCourseType) {
                     if (this.state.search === '' || catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) > -1) {
@@ -109,7 +107,7 @@ class CourseHome extends Component {
             }
           }
         }
-      }
+      
     )
     this.setState({ tempcatalogue: filteredCourses });
     this.setState({ filterationFlag: 1 });
@@ -122,14 +120,14 @@ class CourseHome extends Component {
     let filterCountry = [];
     let filterDegree = [];
 
-    this.state.catalogue.map((value, key) => {
+    this.state.catalogue.forEach((value, key) => {
 
       if (value.coursetype === this.state.pageCourseType) {
         if (filterUni.indexOf(value.University) === -1) {
           filterUni.push(value.University)
         }
-        if (filterDegree.indexOf(value.CourseType) === -1) {
-          filterDegree.push(value.CourseType)
+        if (filterDegree.indexOf(value.degreelevel) === -1) {
+          filterDegree.push(value.degreelevel)
         }
         if (filterExp.indexOf(value.experience) === -1) {
           filterExp.push(value.experience)
@@ -154,17 +152,14 @@ class CourseHome extends Component {
     if (data.target.id === "University" | data.target.id === "University-sidenav") {
       this.setState({ university: data.target.value });
     }
-    if (data.target.id === "Experience" || data.target.id === "Experience-sidenav") {
-      this.setState({ experience: data.target.value });
-    }
     if (data.target.id === "Fees" || data.target.id === "Fees-sidenav") {
       this.setState({ fees: data.target.value });
     }
     if (data.target.id === "Country" || data.target.id === "Country-sidenav") {
       this.setState({ country: data.target.value });
     }
-    if (data.target.id === "CourseType" || data.target.id === "CourseType-sidenav") {
-      this.setState({ coursetype: data.target.value });
+    if (data.target.id === "DegreeLevel" || data.target.id === "DegreeLevel-sidenav") {
+      this.setState({ degreelevel: data.target.value });
     }
   }
 
@@ -187,7 +182,7 @@ class CourseHome extends Component {
             <div className=" row section card-panel hoverable hide-on-large-only">
               <div className="valign-wrapper">
                 <div className="col s8">
-                  <input type="text"value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" />
+                  <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Courses" />
                 </div>
                 <div className="col s4">
                   <a href="#!" onClick={this.courseFilter} className=" btn-small red white-text">Search</a>
@@ -216,19 +211,7 @@ class CourseHome extends Component {
                           </select>
                           <label>University</label>
                         </div>
-                        <div className="input-field col s12">
-                          <select id="Experience-sidenav">
-                            <option value="true">All</option>
-                            {
-                              this.state.tempExp &&
-                              this.state.tempExp.map((value, key) => {
-                                return (<option key={key} value={value}>{value}</option>)
-                              })
-
-                            }
-                          </select>
-                          <label>Experience in Years</label>
-                        </div>
+                        
                         <div className="input-field col s12">
                           <select id="Fees">
                             <option value="true">All</option>
@@ -254,7 +237,7 @@ class CourseHome extends Component {
                           <label>Country</label>
                         </div>
                         <div className="input-field col s12">
-                          <select id="CourseType-sidenav">
+                          <select id="DegreeLevel-sidenav">
                             <option value="true">All</option>
                             {this.state.tempDegree &&
                               this.state.tempDegree.map((value, key) => {
@@ -298,19 +281,7 @@ class CourseHome extends Component {
                     </select>
                     <label>University</label>
                   </div>
-                  <div className="input-field col s12">
-                    <select id="Experience">
-                      <option value="true">All</option>
-                      {
-                        this.state.tempExp &&
-                        this.state.tempExp.map((value, key) => {
-                          return (<option key={key} value={value}>{value}</option>)
-                        })
 
-                      }
-                    </select>
-                    <label>Experience in Years</label>
-                  </div>
                   <div className="input-field col s12">
                     <select id="Fees">
                       <option value="true">All</option>
@@ -336,7 +307,7 @@ class CourseHome extends Component {
                     <label>Country</label>
                   </div>
                   <div className="input-field col s12">
-                    <select id="CourseType">
+                    <select id="DegreeLevel">
                       <option value="true">All</option>
                       {this.state.tempDegree &&
                         this.state.tempDegree.map((value, key) => {
@@ -352,16 +323,16 @@ class CourseHome extends Component {
             </div>
 
             <div className="col l7 m12 s12">
-            <div className="">
-              {
-                this.state.tempcatalogue.map((value, i) => {
-                  return (
-                    <Cards key={i} showButton="true" data={value} agents={this.state.agents} Ctype="Cdesc" previousField={this.props.location.feild} />
+              <div className="">
+                {
+                  this.state.tempcatalogue.map((value, i) => {
+                    return (
+                      <Cards key={i} showButton="true" data={value} agents={this.state.agents} Ctype="CdescNEW" previousField={this.props.location.feild} />
+                    )
+                  }
                   )
                 }
-                )
-              }
-            </div>
+              </div>
               {
                 (!this.state.tempcatalogue.length ?
                   <div>
