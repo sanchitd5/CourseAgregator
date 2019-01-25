@@ -23,9 +23,7 @@ class Home extends Component {
     return (
       <div className="Home">
         <div className="container">
-          <p className="flow-text">Select your Course Type</p>
           <div className="row">
-
             <div className="col l6 m9 s12">
               {
                 this.state.coursetypes.map((value, id) => {
@@ -35,7 +33,6 @@ class Home extends Component {
                 })}
             </div>
             <div className="col l4 m3 s0 ">
-              <p className="flow-text">Advertisments</p>
               <Cards Ctype="dummy" />
               <Cards Ctype="dummy" />
               <Cards Ctype="dummy" />

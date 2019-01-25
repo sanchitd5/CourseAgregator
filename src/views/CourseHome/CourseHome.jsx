@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import Cards from 'components/cards/cards.jsx'
+import Cards from 'components/cards/cards.jsx';
 import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import M from 'materialize-css';
@@ -19,16 +19,16 @@ class CourseHome extends Component {
       degreelevel: "true",
       country: "true",
       filterationFlag: 0,
-      filterationFlag2: 0,
       searchIsHidden: true,
       deskSearchIsHidden: true,
       pageCourseType: this.props.location.feild,
+      temppageCourseType:'',
       tempUni: [],
       tempDegree: [],
       tempFee: [],
       tempCountry: [],
-      
     };
+    window.localStorage.pageCourseType=this.props.location.feild;
     this.loadFilters = this.loadFilters.bind(this);
     this.filterButtonInit();
     this.filteration = this.filteration.bind(this);
@@ -79,10 +79,9 @@ class CourseHome extends Component {
   componentWillMount() {
     this.getCourses();
     this.getAgents();
-
   }
   componentDidMount() {
-
+    this.setState({temppageCourseType:this.state.pageCourseType});
   }
 
   stateHandler = (state) => {
@@ -109,8 +108,10 @@ class CourseHome extends Component {
         }
       
     )
+    
     this.setState({ tempcatalogue: filteredCourses });
     this.setState({ filterationFlag: 1 });
+
   }
 
   loadFilters() {
@@ -163,11 +164,16 @@ class CourseHome extends Component {
     }
   }
 
+  componentWillUpdate(){
+  }
 
   render() {
     if (this.state.catalogue.length === 0) return <LoadingComponent />;
     if (this.state.agents.length === 0) return <LoadingComponent />;
     if (this.state.filterationFlag === 0) {
+      console.log(this.state.temppageCourseType)
+      
+
       this.courseFilter();
       this.loadFilters();
     }
@@ -176,7 +182,7 @@ class CourseHome extends Component {
     return (
 
       <div className="Courses">
-        <br />
+      <br/>
         <div className="container">
           {!this.state.searchIsHidden &&
             <div className=" row section card-panel hoverable hide-on-large-only">
@@ -327,10 +333,9 @@ class CourseHome extends Component {
                 {
                   this.state.tempcatalogue.map((value, i) => {
                     return (
-                      <Cards key={i} showButton="true" data={value} agents={this.state.agents} Ctype="CdescNEW" previousField={this.props.location.feild} />
+                      <Cards key={i} data={value} Ctype="Cdesc" previousField={this.state.pageCourseType} />
                     )
-                  }
-                  )
+                  }) 
                 }
               </div>
               {

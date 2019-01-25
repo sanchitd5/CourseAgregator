@@ -23,6 +23,7 @@ class UniLOGO extends Component {
                 { title: "stanford university", logo: StanfordLogo },],
             tempLOGO:"",
         };
+        this.logoSearch=this.logoSearch.bind(this);
     }
 
     logoSearch(){
@@ -40,7 +41,7 @@ class UniLOGO extends Component {
 
     render() {
         return (<div>
-            <img scr={(this.state.tempLOGO)} alt={this.state.tempLOGO}/>
+            <img src={this.state.tempLOGO} height="auto" width="70%" alt={this.state.tempLOGO}/>
             </div>);
       }
 

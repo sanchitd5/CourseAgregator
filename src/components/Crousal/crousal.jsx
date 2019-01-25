@@ -12,6 +12,9 @@ class Crousal extends Component{
         M.Carousel.init(crousal,{fullWidth:true});
     }
 
+    componentDidUpdate(){
+    this.initilizeCrousal();        
+    }
     componentDidMount()
     {
     this.initilizeCrousal();
