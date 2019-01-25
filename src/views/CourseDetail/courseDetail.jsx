@@ -18,7 +18,7 @@ class CourseDetail extends Component {
     }
 
     render() {
-        if ((typeof this.state.data === 'undefined')) return <Redirect to="/"></Redirect>
+        if ((typeof this.state.data) === 'undefined') return <Redirect to="/"></Redirect>
         return (
             <div className="">
 

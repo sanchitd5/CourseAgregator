@@ -10,11 +10,9 @@ class Cards extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      
-    }
-  }
 
-  
+    };
+  }
 
   render() {
 
@@ -43,7 +41,8 @@ class Cards extends Component {
                 </div>
               </div>
               <div className="col l4 m0 s0">
-                <UniLOGO uniname={this.props.data.University} />
+               <UniLOGO uniname={this.props.data.University } key={Date.now()} />
+                
               </div>
 
             </div>
@@ -56,17 +55,17 @@ class Cards extends Component {
     }
     else if (this.props.Ctype === "btn") {
       return (
-            <div className="card darken-1">
-              <div className="card-content black-text">
-                <span className="card-title left-align">{this.props.data.name}</span>
-                <p className="left-align">
-                  {this.props.data.desc}
-                </p>
-              </div>
-              <div className="card-action left-align red-text">
-                <Link className="red-text" to={{ pathname: '/CourseHome', feild: this.props.data.feild }}>Select Course</Link>
-              </div>
-            </div>
+        <div className="card darken-1">
+          <div className="card-content black-text">
+            <span className="card-title left-align">{this.props.data.name}</span>
+            <p className="left-align">
+              {this.props.data.desc}
+            </p>
+          </div>
+          <div className="card-action left-align red-text">
+            <Link className="red-text" to={{ pathname: '/CourseHome', feild: this.props.data.feild }}>Select Course</Link>
+          </div>
+        </div>
       );
 
     } else if (this.props.Ctype === "landing") {
@@ -89,20 +88,20 @@ class Cards extends Component {
     }
     else if (this.props.Ctype === "dummy") {
       return (
-            <div className="card darken-1">
-              <div className="card-content black-text">
-                <span className="card-title">Dummy Card</span>
-                <div className="divider"></div>
-                <br />
-                <p>
-                  LOREM OPSEM
+        <div className="card darken-1">
+          <div className="card-content black-text">
+            <span className="card-title">Dummy Card</span>
+            <div className="divider"></div>
+            <br />
+            <p>
+              LOREM OPSEM
               </p>
-              </div>
-            </div>
-          
+          </div>
+        </div>
+
       );
     }
-   else {
+    else {
       return (
         <div></div>
       );

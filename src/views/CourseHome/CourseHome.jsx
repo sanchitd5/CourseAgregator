@@ -4,6 +4,7 @@ import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import M from 'materialize-css';
 import 'views/CourseHome/style.scss';
+import UniLOGO from 'components/UniLogo/unilogo.jsx';
 
 class CourseHome extends Component {
   constructor(props) {
@@ -81,7 +82,6 @@ class CourseHome extends Component {
     this.getAgents();
   }
   componentDidMount() {
-    this.setState({temppageCourseType:this.state.pageCourseType});
   }
 
   stateHandler = (state) => {
@@ -90,6 +90,7 @@ class CourseHome extends Component {
   }
 
   courseFilter = (filteredCourses) => {
+    
     filteredCourses = this.state.catalogue.filter(
       (catalogue) => {
           if (this.state.country === "true" || catalogue.Country === this.state.country) {
@@ -107,11 +108,10 @@ class CourseHome extends Component {
           }
         }
       
-    )
-    
+    );
     this.setState({ tempcatalogue: filteredCourses });
     this.setState({ filterationFlag: 1 });
-
+    
   }
 
   loadFilters() {
