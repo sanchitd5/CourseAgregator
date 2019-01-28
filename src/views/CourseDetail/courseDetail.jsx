@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import Cards from 'components/cards/cards.jsx'
 import { Redirect } from 'react-router-dom';
 import Crousal from 'components/Crousal/crousal.jsx'
 import UniLOGO from 'components/UniLogo/unilogo.jsx';
-import M from 'materialize-css';
 
 
 class CourseDetail extends Component {
@@ -13,8 +11,6 @@ class CourseDetail extends Component {
             data: this.props.location.params
 
         }
-    }
-    componentDidMount() {
     }
 
     render() {
@@ -56,7 +52,7 @@ class CourseDetail extends Component {
                                 <div className="row ">
                                     <div className=" left-align col l6 m6 s12 section">
                                         <h5 className="pink-text">Duration</h5>
-                                        <h6>[number] years full-time or part-time equivelent</h6>
+                                        <h6>{this.state.data.duration} years full-time or part-time equivelent</h6>
                                     </div>
                                     <div className="col l6 m12 s12 section left-align">
                                         <h5 className="pink-text">Location</h5>

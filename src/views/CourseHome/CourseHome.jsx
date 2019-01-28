@@ -4,7 +4,6 @@ import LoadingComponent from 'components/loading/loading.jsx';
 import API from 'helpers/api.js';
 import M from 'materialize-css';
 import 'views/CourseHome/style.scss';
-import UniLOGO from 'components/UniLogo/unilogo.jsx';
 
 class CourseHome extends Component {
   constructor(props) {
@@ -23,13 +22,13 @@ class CourseHome extends Component {
       searchIsHidden: true,
       deskSearchIsHidden: true,
       pageCourseType: this.props.location.feild,
-      temppageCourseType:'',
+      temppageCourseType: '',
       tempUni: [],
       tempDegree: [],
       tempFee: [],
       tempCountry: [],
     };
-    window.localStorage.pageCourseType=this.props.location.feild;
+    window.localStorage.pageCourseType = this.props.location.feild;
     this.loadFilters = this.loadFilters.bind(this);
     this.filterButtonInit();
     this.filteration = this.filteration.bind(this);
@@ -90,28 +89,26 @@ class CourseHome extends Component {
   }
 
   courseFilter = (filteredCourses) => {
-    
     filteredCourses = this.state.catalogue.filter(
       (catalogue) => {
-          if (this.state.country === "true" || catalogue.Country === this.state.country) {
-            if (this.state.fees === "true" || catalogue.Fees === this.state.fees) {
-              if (this.state.degreelevel === "true" || catalogue.degreelevel === this.state.degreelevel) {
-                if (this.state.university === "true" || catalogue.University === this.state.university) {
-                  if (catalogue.coursetype === this.state.pageCourseType) {
-                    if (this.state.search === '' || catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) > -1) {
-                      return catalogue.Title;
-                    }
+        if (this.state.country === "true" || catalogue.Country === this.state.country) {
+          if (this.state.fees === "true" || catalogue.Fees === this.state.fees) {
+            if (this.state.degreelevel === "true" || catalogue.degreelevel === this.state.degreelevel) {
+              if (this.state.university === "true" || catalogue.University === this.state.university) {
+                if (catalogue.coursetype === this.state.pageCourseType) {
+                  if (this.state.search === '' || catalogue.Title.toLowerCase().indexOf(this.state.search.toLowerCase()) > -1) {
+                    return catalogue.Title;
                   }
                 }
               }
             }
           }
         }
-      
+      }
     );
     this.setState({ tempcatalogue: filteredCourses });
     this.setState({ filterationFlag: 1 });
-    
+
   }
 
   loadFilters() {
@@ -164,7 +161,7 @@ class CourseHome extends Component {
     }
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
   }
 
   render() {
@@ -172,7 +169,7 @@ class CourseHome extends Component {
     if (this.state.agents.length === 0) return <LoadingComponent />;
     if (this.state.filterationFlag === 0) {
       console.log(this.state.temppageCourseType)
-      
+
 
       this.courseFilter();
       this.loadFilters();
@@ -182,7 +179,7 @@ class CourseHome extends Component {
     return (
 
       <div className="Courses">
-      <br/>
+        <br />
         <div className="container">
           {!this.state.searchIsHidden &&
             <div className=" row section card-panel hoverable hide-on-large-only">
@@ -217,7 +214,7 @@ class CourseHome extends Component {
                           </select>
                           <label>University</label>
                         </div>
-                        
+
                         <div className="input-field col s12">
                           <select id="Fees">
                             <option value="true">All</option>
@@ -335,7 +332,7 @@ class CourseHome extends Component {
                     return (
                       <Cards key={i} data={value} Ctype="Cdesc" previousField={this.state.pageCourseType} />
                     )
-                  }) 
+                  })
                 }
               </div>
               {
@@ -349,9 +346,9 @@ class CourseHome extends Component {
               }
             </div>
             <div className="col l2 m0 s0 hide-on-med-and-down">
-              <Cards Ctype="dummy" />
-              <Cards Ctype="dummy" />
-              <Cards Ctype="dummy" />
+              <Cards Ctype="advert" />
+              <Cards Ctype="advert" />
+              <Cards Ctype="advert" />
             </div>
           </div>
         </div>

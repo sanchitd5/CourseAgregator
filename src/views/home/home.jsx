@@ -33,9 +33,7 @@ class Home extends Component {
                 })}
             </div>
             <div className="col l4 m3 s0 ">
-              <Cards Ctype="dummy" />
-              <Cards Ctype="dummy" />
-              <Cards Ctype="dummy" />
+              <Cards Ctype="advert" />
             </div>
           </div>
         </div>

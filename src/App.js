@@ -13,7 +13,6 @@ import Login from 'views/login/login.jsx';
 import Home from 'views/home/home.jsx';
 import Team from 'views/team/team.jsx';
 import CourseHome from 'views/CourseHome/CourseHome.jsx'
-import CoursesContent from 'views/CoursesContent/CoursesContent.jsx'
 import Agent from 'views/Agent/Agent.jsx'
 import Landing from 'views/Landing/landingView.jsx'
 import SignUp from 'views/SignUp/signup'
@@ -86,10 +85,7 @@ class App extends Component {
             <CourseHome {...props}/> : <Redirect to='/' /> )} 
           />
 
-          <Route exact path='/test' render={() => <div>Test</div>} />
-  
-          <Route exact path="/CoursesContent" component={CoursesContent} />
-            <Route exact path='/Agent' component={Agent}/>
+              <Route exact path='/Agent' component={Agent}/>
           <Route render={() => <div>404 Error</div>} />
 
         </Switch>

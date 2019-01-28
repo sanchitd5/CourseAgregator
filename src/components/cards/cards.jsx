@@ -41,8 +41,8 @@ class Cards extends Component {
                 </div>
               </div>
               <div className="col l4 m0 s0">
-               <UniLOGO uniname={this.props.data.University } key={Date.now()} />
-                
+                <UniLOGO uniname={this.props.data.University} key={Date.now()} />
+
               </div>
 
             </div>
@@ -101,13 +101,31 @@ class Cards extends Component {
 
       );
     }
+    else if (this.props.Ctype === "advert") {
+      return (
+        <div className="card">
+          <div className="card-image waves-effect waves-block waves-light">
+            <img alt="adv-img" className="activator" src="https://mumbrella.com.au/wp-content/uploads/2016/09/18_Deakin_Hero1_Billboard_8x13-1.jpg"/>
+        </div>
+            <div className="card-content">
+              <span className="card-title activator grey-text text-darken-4">Deakin University<i className="material-icons right">more_vert</i></span>
+              <p>Think Young</p>
+            </div>
+            <div className="card-reveal">
+              <span className="card-title grey-text text-darken-4">Think Young<i class="material-icons right">close</i></span>
+              <p>Deakin is a young, vibrant and cutting-edge university with great ambitions, and it’s our people that are the embodiment of our culture and the essence of who we are as a brand.</p>
+            </div>
+          </div>
+
+          );
+        }
     else {
       return (
         <div></div>
-      );
+          );
+        }
+      }
     }
-  }
-}
-export default Cards;
-
-
+    export default Cards;
+    
+    
