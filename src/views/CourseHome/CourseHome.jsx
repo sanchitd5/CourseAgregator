@@ -65,9 +65,6 @@ class CourseHome extends Component {
   getCourses = () => {
     API.getCourses(this.stateHandler);
   }
-  getAgents = () => {
-    API.getAgents(this.stateHandler);
-  }
   updateSearch = (event) => {
     this.setState({ search: event.target.value });
   }
@@ -78,7 +75,6 @@ class CourseHome extends Component {
   }
   componentWillMount() {
     this.getCourses();
-    this.getAgents();
   }
   componentDidMount() {
   }
@@ -166,7 +162,6 @@ class CourseHome extends Component {
 
   render() {
     if (this.state.catalogue.length === 0) return <LoadingComponent />;
-    if (this.state.agents.length === 0) return <LoadingComponent />;
     if (this.state.filterationFlag === 0) {
       console.log(this.state.temppageCourseType)
 

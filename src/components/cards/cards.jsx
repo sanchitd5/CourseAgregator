@@ -112,7 +112,7 @@ class Cards extends Component {
               <p>Think Young</p>
             </div>
             <div className="card-reveal">
-              <span className="card-title grey-text text-darken-4">Think Young<i class="material-icons right">close</i></span>
+              <span className="card-title grey-text text-darken-4">Think Young<i className="material-icons right">close</i></span>
               <p>Deakin is a young, vibrant and cutting-edge university with great ambitions, and it’s our people that are the embodiment of our culture and the essence of who we are as a brand.</p>
             </div>
           </div>
