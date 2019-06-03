@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { requestAccessTokenLogin } from 'actions';
 import Login from 'views/login/login.jsx';
+import AgentLogin from 'views/login/AgentLogin';
 import Home from 'views/home/home.jsx';
 import Team from 'views/team/team.jsx';
 import CourseHome from 'views/CourseHome/CourseHome.jsx'
@@ -23,7 +24,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'c0dename-b00keep3R',
+      title: 'Course Finder',
     };
     this.stateHandler = this.stateHandler.bind(this);
   }
@@ -34,7 +35,7 @@ class App extends Component {
       state
     );
   }
-  
+
 
   componentDidMount() {
     let token = ''
@@ -49,52 +50,58 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.loading){ return (<LoadingComponent />);}
+    if (this.props.loading) { return (<LoadingComponent />); }
     else {
       return (
-      <div className="App">
-        {/* Header */}
-        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler}/> : <Header loginLABEL="Login" title={this.state.title} />}
-        
-        <main>
-        
-        {/* Main body */}
-        <Switch>
-          
-          <Route exact path='/' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
-            <Redirect to='/home' /> : <Landing /> )}
-          />
-          <Route exact path='/login' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
-            <Redirect to='/home' /> : <Login parentState={this.state} parentProps={this.props} /> )}
-          />
-          <Route path='/signup' component={SignUp}  
-          />
-          <Route path='/landing' component={Landing}  
-          />
-          <Route  path='/courseDetail' component={CourseDetail}  
-          />
-          
-          <Route path='/home' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
-            <Home {...props}/> : <Redirect to='/' /> )} 
-          />
-          <Route exact path='/team' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
-            <Team {...props}/> : <Redirect to='/' /> )} 
-          />
+        <div className="App">
+          {/* Header */}
+          {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Header title={this.state.title} logout={this.stateHandler} /> : <Header loginLABEL="Login" title={this.state.title} />}
 
-          <Route path='/CourseHome' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? 
-            <CourseHome {...props}/> : <Redirect to='/' /> )} 
-          />
+          <main>
 
-              <Route exact path='/Agent' component={Agent}/>
-          <Route render={() => <div>404 Error</div>} />
+            {/* Main body */}
+            <Switch>
 
-        </Switch>
-            </main>
-        {/* Footer */}
-        {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Footer /> : <Footer/>}
-      </div>
-    );
-  }
+              <Route exact path='/' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Redirect to='/home' /> : <Landing />)}
+              />
+              <Route exact path='/login' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Redirect to='/home' /> : <Login parentState={this.state} parentProps={this.props} />)}
+              />
+
+              <Route exact path='/agentlogin' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <AgentLogin></AgentLogin> : <AgentLogin></AgentLogin>)}
+              />
+
+              <Route path='/signup' component={SignUp}
+              />
+              <Route path='/landing' component={Landing}
+              />
+              <Route path='/courseDetail' component={CourseDetail}
+              />
+
+              <Route path='/home' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Home {...props} /> : <Redirect to='/' />)}
+              />
+              <Route exact path='/team' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Team {...props} /> : <Redirect to='/' />)}
+              />
+
+              <Route path='/CourseHome' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <CourseHome {...props} /> : <Redirect to='/' />)}
+              />
+
+              <Route path='/Agent' render={(props) => (window.localStorage.getItem("agentLogin") ?
+                <Agent {...props} /> : <Redirect to='/' />)}
+              />
+
+            </Switch>
+          </main>
+          {/* Footer */}
+          {this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ? <Footer /> : <Footer />}
+        </div>
+      );
+    }
   }
 }
 
