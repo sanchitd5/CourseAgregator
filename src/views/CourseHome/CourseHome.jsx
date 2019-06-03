@@ -27,6 +27,7 @@ class CourseHome extends Component {
       tempDegree: [],
       tempFee: [],
       tempCountry: [],
+      courseData: []
     };
     window.localStorage.pageCourseType = this.props.location.feild;
     this.loadFilters = this.loadFilters.bind(this);
@@ -63,7 +64,7 @@ class CourseHome extends Component {
 
   }
   getCourses = () => {
-    API.getCourses(this.stateHandler);
+    API.getCourses(this.stateHandler)
   }
   updateSearch = (event) => {
     this.setState({ search: event.target.value });
@@ -71,7 +72,7 @@ class CourseHome extends Component {
   componentDidUpdate() {
     this.initilizeSelector();
     this.initilizeSidenav();
-
+    window.localStorage.setItem("courseData", JSON.stringify(this.state.courseData))
   }
   componentWillMount() {
     this.getCourses();
@@ -157,11 +158,10 @@ class CourseHome extends Component {
     }
   }
 
-  componentWillUpdate() {
-  }
 
   render() {
-    if (this.state.catalogue.length === 0) return <LoadingComponent />;
+    console.log('[COURSES]', this.stat)
+    if (this.state.courseData.length === 0) return <LoadingComponent />;
     if (this.state.filterationFlag === 0) {
       console.log(this.state.temppageCourseType)
 
@@ -249,7 +249,6 @@ class CourseHome extends Component {
                       </form>
                     </div>
                   </div>
-
                 </div>
                 <a href="#!" data-target="slide-out" className=" sidenav-trigger grey-text">Advance Filters</a>
 
@@ -323,9 +322,9 @@ class CourseHome extends Component {
             <div className="col l7 m12 s12">
               <div className="">
                 {
-                  this.state.tempcatalogue.map((value, i) => {
+                  this.state.courseData.map((value, i) => {
                     return (
-                      <Cards key={i} data={value} Ctype="Cdesc" previousField={this.state.pageCourseType} />
+                      <Cards key={i} data={value} Ctype="Cdesc" previousField={this.state.pageCourseType} parentStateHandler={this.stateHandler} parentState={this.state}/>
                     )
                   })
                 }
