@@ -4,19 +4,22 @@ import { connect } from 'react-redux';
 import { requestLogin, developerModeLogin } from 'actions';
 import MainBackground from 'images/login_background.jpg'
 import M from 'materialize-css';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'views/login/loginStyle.css'
-
+import API from 'helpers/api.js';
+import { Redirect } from 'react-router-dom'
+import LoadingComponent from 'components/loading/loading.jsx';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      backgroundImage: 'url('+MainBackground+')',
+      backgroundImage: 'url(' + MainBackground + ')',
       emailId: '',
       password: '',
-      developerMode: true, // Change this to false to contact API
+      developerMode: false, // Change this to false to contact API
       error: false,
-      errorMsg: ''
+      errorMsg: '',
+      redirect: false
     };
   }
 
@@ -33,8 +36,20 @@ class Login extends Component {
     this.setState({
       emailId: e.target.value
     });
-    window.localStorage.setItem("username",e.target.value);
+    window.localStorage.setItem("username", e.target.value);
   }
+
+  stateHandler = (state) => {
+    this.setState(state);
+    window.localStorage.setItem("students", JSON.stringify(this.state.students))
+  }
+
+  componentDidMount() {
+    API.getStudents(this.stateHandler)
+    window.localStorage.setItem("agentLogin", false)
+
+  }
+
 
   handlePasswordChange = (e) => {
     this.setState({
@@ -83,36 +98,63 @@ class Login extends Component {
     });
   }
 
+  userSignIn = (e) => {
+    e.preventDefault();
+    console.log('[In user sign in]')
+  
+
+    if (!this.validationCheck()) return;
+
+    API.studentLogin(this.state.emailId, this.state.password, AppHelper.loginUser)
+
+  //  if(this.state.login !== 200) return 
+  //   else return AppHelper.loginUser(true)
+    
+    // if (this.state.students.length > 0) {
+    //   this.state.students.map(student => {
+    //     return (
+    //       Boolean((student.email === this.state.emailId) && (student.password === this.state.password)) ? AppHelper.loginUser(true) : this.setState({
+    //         error: true,
+    //         errorMsg: "Invalid credentials!"
+    //       })
+    //     )
+    //   })
+
+    // }
+  }
   render() {
-    document.body.style.backgroundImage=this.state.backgroundImage;
     return (
-      
-  <div className="Login">
-      <div className="container">
 
-        <div className="login-pageX">
-          <div className="formX">
-            <form className="login-formX" id="login_form">
-            <label className="flow-text">LOG IN</label><br/><br/>
-            <div className="section">
-            <input placeholder="Email" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
-            <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
-              <br/><br/>  {this.errorMessage()}
-                {
-                  this.props.loginLoading ?
-                    "Loading..." :
-                    <button className="red waves-effect waves-light" onClick={this.performLogin} >
-                      Login
+      <div className="Login">
+        <div className="container">
+
+          <div className="login-pageX">
+            <div className="formX">
+              <form className="login-formX" id="login_form">
+                <label className="flow-text">LOG IN</label><br /><br />
+                <div className="section">
+                  <input placeholder="Email" id="email" type="email" className="validate" onChange={this.handleEmailChange} />
+                  <input placeholder="Password" id="password" type="password" className="validate" onChange={this.handlePasswordChange} />
+                  <br /><br />  {this.errorMessage()}
+                  {
+                    this.props.loginLoading ?
+                      "Loading..." :
+                      <button className="red waves-effect waves-light" onClick={this.userSignIn} >
+                        Login
                     </button>
-                }
+                  }
                 </div>
-            <Link to="/signup"><label><h6>New here?</h6></label></Link>
-            </form>
+                {
+                  this.state.redirect === true ? <Redirect to='/landing'></Redirect> : null
+                }
+                <Link to="/signup"><label><h6>New here?</h6></label></Link>
+                <Link to="/agentlogin"><label><h6>Agent Login</h6></label></Link>
+              </form>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
-    </div>
     );
   }
 }
