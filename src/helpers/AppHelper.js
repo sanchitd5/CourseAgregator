@@ -4,13 +4,39 @@ class AppHelper {
   developerModeLoginUser = (loggedIn) => {
     window.localStorage.setItem("loggedIn", loggedIn);
     window.localStorage.setItem("developerMode", loggedIn);
-    history.push('/home') // Change this if you have to
+    let agentLogin = window.localStorage.getItem("agentLogin")
+    window.localStorage.setItem("agentLogin", false)
+    console.log('AGENT LOGIN',agentLogin)
+    switch(agentLogin)
+    {
+      case 'true' : console.log(true)
+                  history.push('/Agent')
+                  break;
+      case 'false': console.log(false)
+                  history.push('/landing')
+                  break;
+      default: console.log('[DEFAULT]')
+                break;
+    }
   }
 
-  loginUser = (loggedIn, accessToken) => {
+  loginUser = (loggedIn) => {
     window.localStorage.setItem("loggedIn", loggedIn);
-    window.localStorage.setItem("accessToken", accessToken);
-    history.push('/home') // Change this if you have to
+    //window.localStorage.setItem("accessToken", accessToken);
+    let agentLogin = window.localStorage.getItem("agentLogin")
+    window.localStorage.setItem("agentLogin", false)
+    console.log('AGENT LOGIN',agentLogin)
+    switch(agentLogin)
+    {
+      case 'true' : console.log(true)
+                  history.push('/Agent')
+                  break;
+      case 'false': console.log(false)
+                  history.push('/landing')
+                  break;
+      default: console.log('[DEFAULT]')
+                break;
+    }
   }
 
   logoutUser = () => {
@@ -32,11 +58,10 @@ class AppHelper {
 
   */
   isUserLocalStorageLoggedIn = () => {
-    let token = "";
-    if ((this.getUserLoggedIn() && ((token = this.getUserAccessToken()) !== "")) ||
-        (this.getUserLoggedIn() && (this.getDeveloperMode()))) {
-      token = "" + ( (this.getUserAccessToken()) || this.getDeveloperMode() ); // this is wrong!
-      return token;
+    //let token = "";
+    if (this.getUserLoggedIn()) {
+      //token = "" + ( (this.getUserAccessToken()) || this.getDeveloperMode() ); // this is wrong!
+      return true;
     }
     else
       return false;
