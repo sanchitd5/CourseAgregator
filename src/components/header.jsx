@@ -50,19 +50,23 @@ class Header extends Component {
       <header>
         <div className="navbar-fixed">
           <ul id='user-dropper' className='dropdown-content right-align'>
-            <li ><a className="black-text waves-effect waves-light" href="#!" >Profile</a></li>
+            <li ><a className="black-text waves-effect waves-light" href="/Profile" >Profile</a></li>
+            <li ><a className="black-text waves-effect waves-light" href="/Documents" >Documents</a></li>
             <li ><a className="black-text waves-effect waves-light" href="#!" disabled="disabled">Settings</a></li>
             <li ><a onClick={this.logout} className="black-text waves-effect waves-light" href="#!">Logout</a></li>
           </ul>
           <nav className="App-header">
             <div className="nav-wrapper">
-              <ul className="left"><li>
-                {(AppHelper.isUserLocalStorageLoggedIn() ? <Link to="/landing"><i className="whtie-text material-icons">home</i></Link>
-                  : '')}</li></ul>
+              <ul className="left">
+                <li>
+                  {AppHelper.isUserLocalStorageLoggedIn() ?
+                    <Link to="/landing"><i className="whtie-text material-icons">home</i></Link> :
+                    <Link to="/Agent"><i className="whtie-text material-icons">home</i></Link>}
+                </li></ul>
               <div className="brand-logo center valign-wrapper"><Link to="/home" onClick={this.enableLoginButton}>LOGO</Link></div>
               <ul className="right ">
                 <li>
-                  {( AppHelper.isUserLocalStorageLoggedIn() ? <a className='dropdown-trigger' href='#!' ref={(dropdown) => { this.dropdown = dropdown }} data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">menu</i></a>
+                  {(AppHelper.isUserLocalStorageLoggedIn() ? <a className='dropdown-trigger' href='#!' ref={(dropdown) => { this.dropdown = dropdown }} data-beloworigin="true" data-target='user-dropper'><i className="material-icons right">menu</i></a>
 
                     : !this.state.loginFlag && <Link to="/login" onClick={this.disbableLoginButton}><div className="btn red" href="#!">{this.props.loginLABEL}</div></Link>)}
                 </li>
