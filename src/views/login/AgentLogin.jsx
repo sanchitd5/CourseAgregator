@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { requestLogin, developerModeLogin } from 'actions';
 import MainBackground from 'images/login_background.jpg'
 import M from 'materialize-css';
-import { Link } from 'react-router-dom';
 import 'views/login/loginStyle.css'
 import API from 'helpers/api.js';
 import { Redirect } from 'react-router-dom'
@@ -88,7 +87,7 @@ class AgentLogin extends Component {
         response.payload.data.data && response.payload.data.data.accessToken
       ) {
         const accessToken = response.payload.data.data.accessToken;
-        console.log('[TOKEN]',accessToken)
+        console.log('[TOKEN]', accessToken)
         AppHelper.loginUser(true, accessToken);
       } else {
         this.setState({
@@ -104,15 +103,15 @@ class AgentLogin extends Component {
 
     e.preventDefault();
     console.log('[In user sign in]')
-   
+
 
     if (!this.validationCheck()) return;
 
     API.agentLogin(this.state.emailId, this.state.password, this.stateHandler)
 
-   if(this.state.login !== 200) return <LoadingComponent></LoadingComponent>
+    if (this.state.login !== 200) return <LoadingComponent></LoadingComponent>
 
-   console.log('[LOGIN]', this.state.login)
+    console.log('[LOGIN]', this.state.login)
     AppHelper.loginUser(true)
 
     // if (this.state.students.length > 0) {
