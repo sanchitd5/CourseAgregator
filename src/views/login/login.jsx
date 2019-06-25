@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import 'views/login/loginStyle.css'
 import API from 'helpers/api.js';
 import { Redirect } from 'react-router-dom'
-import LoadingComponent from 'components/loading/loading.jsx';
+
 class Login extends Component {
   constructor(props) {
     super(props);
