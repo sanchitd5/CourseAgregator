@@ -1,90 +1,89 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import Crousal from 'components/Crousal/crousal.jsx'
-import UniLOGO from 'components/UniLogo/unilogo.jsx';
-
-
+import M from 'materialize-css';
+import { Link } from 'react-router-dom';
+import API from 'helpers/api.js';
+import LoadingComponent from '../../components/loading/loading';
 class CourseDetail extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            data: this.props.location.params
-
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.location.params,
+      notifyAgent: false
     }
 
-    render() {
-        if ((typeof this.state.data) === 'undefined') return <Redirect to="/"></Redirect>
-        return (
-            <div className="">
+    this.notifyAgent = this.notifyAgent.bind(this)
+  }
 
-                <Crousal Ctype="fullwidth" />
-                <div className="row container">
-                    <div className="section valign-wrapper">
-                        <div className="col s0 l3 m3 hide-on-med-and-down">
-                            <UniLOGO uniname={this.state.data.University} />
-                        </div>
-                        <div className="col s12 l9 m9">
-                            <div className="left-align section">
-                                <h4>{this.state.data.Title}</h4>
-                                <h5 className="">{this.state.data.University}</h5>
-                            </div>
-                        </div>
-                    </div>
+  componentDidMount() {
+    M.AutoInit()
+    this.checkApplications()
+  }
 
-                    <div className="col s12 l12 m12">
-                        <p className="flow-text left-align">{this.state.data.Description}</p>
-                    </div>
-                    <div className="col s12 l12 m12">
-                        <ul className="tabs tabs-fixed-width grey lighten-4">
-                            <li className="tab "><a className="active red-text" href="#facts">Key Facts</a></li>
-                            <li className="tab red-text"><a className="red-text" href="#info">Course Information</a></li>
-                            <li className="tab red-text"><a className="red-text" href="#requirements">Entry Requirements</a></li>
-                            <li className="tab red-text"><a className="red-text" href="#fees">Fee and Scholarships</a></li>
-                        </ul>
-                    </div>
-                    <div className="divider"></div>
-                    <br />
-                    <div id="facts" className="col s12 l12 m12">
-                        <h4 className="left-align red-text">Key Facts</h4>
-                        <div className="row valign-wrapper">
-                            <div className="col l6 m6 s12 section left-align">
-                                <div className="row ">
-                                    <div className=" left-align col l6 m6 s12 section">
-                                        <h5 className="pink-text">Duration</h5>
-                                        <h6>{this.state.data.duration} years full-time or part-time equivelent</h6>
-                                    </div>
-                                    <div className="col l6 m12 s12 section left-align">
-                                        <h5 className="pink-text">Location</h5>
-                                        <h6>{this.state.data.Country}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col l6 m6 s12 hide-on-small-only"></div>
-                        </div>
+  checkApplications() {
+    if (this.state.application === undefined) return <LoadingComponent></LoadingComponent>
+    this.state.application.map(value => {
+      return (
+        value.studentId._id === window.localStorage.getItem("studentid") ? this.setState({
+          applicationSubmitted: true
+        }) : this.setState({
+          applicationSubmitted: false
+        })
+      )
+    })
+  }
 
-                    </div>
-                    <div id="info" className="col s12 l12 m12">
-                        <h4 className="left-align red-text">Course Information</h4>
-                        <p className="flow-text left-align"><div className="green-text">[To be replaced by uni's course specific info]</div> {this.state.data.Description}</p>
-                    </div>
-
-
-                    <div id="requirements" className="col s12 l12 m12">
-                        <h4 className="left-align red-text">Entry Requirements</h4>
-                        <p className="flow-text left-align"><div className="green-text">[To be replaced by entry requirements specific info]</div> {this.state.data.Description}</p>
-                    </div>
-
-                    <div id="fees" className="col s12 l12 m12">
-                        <h4 className="left-align red-text">Fee Requirements</h4>
-                        <p className="flow-text left-align">Estimated Tutiton Fee : ${this.state.data.Fees}</p>
-                
-                    </div>
-
-                </div>
+  notifyAgent(e) {
+    e.preventDefault();
+    M.toast({ html: 'Submitted!' })
+    console.log('[DATA]', this.state.data)
+    API.sendCourseInterest(window.localStorage.getItem("studentid"), this.state.data._id)
+    this.setState({
+      notifyAgent: true
+    })
+  }
+  render() {
+    if ((typeof this.state.data) === 'undefined') return <Redirect to="/"></Redirect>
+    return (
+      <div class="row center-align">
+        <div class="col s12 m5">
+          <div class="card-panel">
+            <span class="black-text"><p>Name: {this.state.data.name}</p>
+              <p>CourseLevel: {this.state.data.courseLevel}</p>
+              <p>Department: {this.state.data.department}</p>
+              <p>Description: {this.state.data.description}</p>
+              <p>University: {this.state.data.university.name}</p>
+              <p>Contact: {this.state.data.contact}</p>
+              <p>Website: <a href={this.state.data.website}>{this.state.data.website}</a></p>
+              <p>Tuition: {this.state.data.fees}</p>
+            </span>
+            <div className="row">
+              {Boolean(this.state.applicationSubmitted) ?
+                this.state.notifyAgent === false ?
+                  <Link className="waves-effect waves-light btn"
+                    to={{
+                      params: this.props.data
+                    }}
+                    onClick={this.notifyAgent}>
+                    Send your expression of Interest
+              </Link> :
+                  <Link className="waves-effect waves-light btn"
+                    to={{
+                      params: this.props.data
+                    }}>
+                    Submitted
+              </Link> : <Link className="waves-effect waves-light btn"
+                  to={{
+                    params: this.props.data
+                  }}>
+                  Submitted
+              </Link>}
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default CourseDetail;
