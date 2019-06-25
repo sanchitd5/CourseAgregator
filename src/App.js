@@ -8,7 +8,6 @@ import Footer from 'components/footer.jsx';
 import LoadingComponent from 'components/loading/loading.jsx';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { requestAccessTokenLogin } from 'actions';
 import Login from 'views/login/login.jsx';
 import AgentLogin from 'views/login/AgentLogin';
 import Home from 'views/home/home.jsx';
@@ -18,8 +17,9 @@ import Agent from 'views/Agent/Agent.jsx'
 import Landing from 'views/Landing/landingView.jsx'
 import SignUp from 'views/SignUp/signup'
 import CourseDetail from 'views/CourseDetail/courseDetail.jsx';
-
-
+import ApplicationStatus from 'views/ApplicationStatus/applicationStatus.jsx'
+import Profile from 'views/Profile/Profile.jsx'
+import Documents from 'views/Documents/Documents.jsx'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -38,15 +38,15 @@ class App extends Component {
 
 
   componentDidMount() {
-    let token = ''
-    if ((token = AppHelper.isUserLocalStorageLoggedIn())) {
-      if (token === 'true') return;
-      this.props.dispatchAccessTokenLogin(token)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => console.log(error));
-    }
+    // let token = ''
+    // if ((token = AppHelper.isUserLocalStorageLoggedIn())) {
+    //   if (token === 'true') return;
+    //   this.props.dispatchAccessTokenLogin(token)
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
   }
 
   render() {
@@ -87,12 +87,24 @@ class App extends Component {
                 <Team {...props} /> : <Redirect to='/' />)}
               />
 
-              <Route path='/CourseHome' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+              <Route path='/coursehome' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
                 <CourseHome {...props} /> : <Redirect to='/' />)}
+              />
+
+              <Route path='/Profile' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Profile {...props} /> : <Redirect to='/' />)}
+              />
+
+              <Route path='/Documents' render={(props) => (this.props.loggedIn || AppHelper.isUserLocalStorageLoggedIn() ?
+                <Documents {...props} /> : <Redirect to='/' />)}
               />
 
               <Route path='/Agent' render={(props) => (window.localStorage.getItem("agentLogin") ?
                 <Agent {...props} /> : <Redirect to='/' />)}
+              />
+
+              <Route exact path='/trackapplication' render={(props) => (window.localStorage.getItem("agentLogin") ?
+                <ApplicationStatus {...props}></ApplicationStatus> : <Agent></Agent>)}
               />
 
             </Switch>
@@ -112,10 +124,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchAccessTokenLogin: (token) => dispatch(requestAccessTokenLogin(token))
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     dispatchAccessTokenLogin: (token) => dispatch(requestAccessTokenLogin(token))
+//   }
+// }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps)(App));
