@@ -9,7 +9,7 @@ class Footer extends Component {
       
         <div className="footer-copyright">
           <div className="container">
-            Deakin University 2019
+            Product of Deakin Launchpad 2019
           </div>
         </div>
         </div>
