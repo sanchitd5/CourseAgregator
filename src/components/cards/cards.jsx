@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import UniLOGO from 'components/UniLogo/unilogo.jsx';
-
+import LoadingComponent from '../loading/loading';
 
 
 class Cards extends Component {
@@ -11,7 +11,8 @@ class Cards extends Component {
     super(props)
     this.state = {
       notifyAgent: false,
-      data: []
+      data: [],
+      courseid: []
     };
 
     this.notifyAgent = this.notifyAgent.bind(this)
@@ -20,28 +21,37 @@ class Cards extends Component {
   notifyAgent() {
     this.setState({notifyAgent: true})
     let data = {
-      id: this.props.data.id,
-      title: this.props.data.Title,
+      id: this.props.data._id,
       university: this.props.data.university
     }
     let temp = this.props.parentState.courseData
     temp.push(data)
     this.props.parentStateHandler({courseData: temp})
     console.log('[PARENT STATE]',this.props.parentState)
+      if(temp.length > 0) return console.log('[TEMP]',temp)
     //window.localStorage.setItem("agentData", data)
   }
 
   componentDidMount() {
-    this.setState({
-      students: window.localStorage.getItem("students") || "[]"
-    })
-    if(this.props.data > 0)
-    this.setState({
-      data: this.props.data
-    })
+   
+
+    if(this.props.data !== undefined && this.props.data.length > 0)
+    {
+      window.localStorage.setItem("courseData",this.props.data)
+      let courses = JSON.parse(window.localStorage.getItem("courseData"))
+      let temp = []
+      courses.forEach( course => {
+        temp.push(course._id)
+      })
+      console.log('CourseData',temp)
+      this.setState({
+        courseid: temp
+      })
+    }
+    else
+      return <LoadingComponent></LoadingComponent>
   }
   render() {
-    console.log('[PROPS]',this.props.data)
     if (this.props.Ctype === "Cdesc" && this.props.previousField === this.props.data.coursetype) {
       return (
         <div className="card">
@@ -56,11 +66,11 @@ class Cards extends Component {
                     <div className="">{this.props.data.university.name}</div>
                   </div>
                   <div className="col l12 m12 s12">
-                    <div className="">Course Level: {this.props.data.courseLevel
-                      // (this.props.data.courseLevel.toLowerCase() === "master" ? "Master" : (
-                      //   this.props.data.courseLevel.toLowerCase() === "phd" ? "Doctrate" : (
-                      //     this.props.data.courseLevel.toLowerCase() === "diploma" ? "Diploma" :
-                      //       (this.props.data.courseLevel.toLowerCase() === "bachelor" ? "Bachelor" : ''))))
+                    <div className="">Course Level: 
+                      { (this.props.data.courseLevel.toLowerCase() === "master" ? "Master" : (
+                         this.props.data.courseLevel.toLowerCase() === "phd" ? "Doctrate" : (
+                           this.props.data.courseLevel.toLowerCase() === "diploma" ? "Diploma" :
+                             (this.props.data.courseLevel.toLowerCase() === "bachelor" ? "Bachelor" : ''))))
                     }</div>
                   </div>
                   <div className="col l12 m12 s12">
@@ -92,7 +102,7 @@ class Cards extends Component {
             </p>
           </div>
           <div className="card-action left-align red-text">
-            <Link className="red-text" to={{ pathname: '/CourseHome', feild: this.props.data.feild }}>Select Course</Link>
+            <Link className="red-text" to={{ pathname: '/coursehome', feild: this.props.data.feild }}>Select Course</Link>
           </div>
         </div>
       );
