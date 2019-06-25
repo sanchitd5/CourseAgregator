@@ -6,7 +6,7 @@ import ChitkaraLogo from 'images/universities/0003.png';
 import IITLogo from 'images/universities/0004.png';
 import HarvardLogo from 'images/universities/0005.png';
 import StanfordLogo from 'images/universities/0006.png';
-
+import LoadingComponent from '../loading/loading';
 
 class UniLOGO extends Component {
     constructor(props) {
@@ -36,12 +36,13 @@ class UniLOGO extends Component {
         });
     }
     componentWillMount(){
+        if(this.props.uniname === undefined ) return <LoadingComponent></LoadingComponent>
         this.logoSearch();
     };
 
     render() {
         return (<div>
-            <img src={this.state.tempLOGO} height="auto" width="70%" alt={this.state.tempLOGO}/>
+            <img className="resize-image" src={this.state.tempLOGO} alt={this.state.tempLOGO}/>
             </div>);
       }
 
